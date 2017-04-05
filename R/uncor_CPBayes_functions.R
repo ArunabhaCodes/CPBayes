@@ -10,7 +10,7 @@
 
  #library("MASS")
 
- CPBayes_uncor = function( variantName, traitNames, X, s.e., updateDE, RP, burn.in )
+ CPBayes_uncor = function( variantName, traitNames, X, s.e., updateDE, MinSlabVar, MaxSlabVar, RP, burn.in )
  {
      ptm1 <- proc.time()
      set.seed(10)
@@ -19,12 +19,13 @@
      PPAj_thr = 0.25                                           ## PPAj threshold
 
      tau <- 0.01                                               ## choice of spike sd (var = tau^2)
-     nonNullVar <- 1                                           ## central choice of slab variance 
+     CentralSlabVar <- (MinSlabVar+MaxSlabVar)/2
+     nonNullVar <- CentralSlabVar                              ## central choice of slab variance 
      de <- sqrt(tau^2/nonNullVar)                              ## 1/de = ratio of slab sd and spike sd
 
      ## v0 (minimum of slab variance - min_var), v1 (maximum of slab variance - max_var)
-     min_var <- 0.8
-     max_var <- 1.2
+     min_var <- MinSlabVar
+     max_var <- MaxSlabVar
      max_de <- tau/sqrt(min_var)                               ## maximum value of 'de'
      min_de <- tau/sqrt(max_var)                               ## mimimum value of 'de'
      shape1_de <- 1                                            ## shape1 parameter of the Beta prior of 'de' (shape2 parameter = 1, always)
@@ -107,7 +108,7 @@
      ## return the outputs. A post summary from the MCMC data can be computed for interesting variants
      data = list( variantName = variantName, log10_BF = log10_BF_uncor, PPNA = PPNA.uncor, 
             subset = selected_traits, important_traits = important_phenos, auxi_data = list( traitNames = traitNames, 
-            K = K, mcmc.samplesize = mcmc.samplesize, PPAj = asso.pr, Z.data = Z.data, sim.beta = sim.beta), runtime = ptm )
+            K = K, mcmc.samplesize = mcmc.samplesize, PPAj = asso.pr, Z.data = Z.data, sim.beta = sim.beta, betahat = X, se = s.e.), runtime = ptm )
 
      return(data)
  }

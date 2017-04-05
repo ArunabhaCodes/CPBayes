@@ -84,21 +84,23 @@
 #'  \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} and obtain meaningful insights
 #'   into an observed pleiotropic signal.
 #'      
-#' @param mcmc_output A list returned by either of the two main CPBayes functions
-#'  \code{\link{cpbayes_uncor}} and \code{\link{cpbayes_cor}}. This list 
-#' contains all the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
+#' @param mcmc_output A list returned by either 
+#'  \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list 
+#' contains the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
 #'  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.
 #' @param level A numeric value. (1-level)\% credible interval (Bayesian analog of the
-#'  confidence interval) is computed for the true unknown genetic effect (beta/odds ratio)
-#'   on the traits. Default choice is 0.05.
+#'  confidence interval) of the unknown true genetic effect (beta/odds ratio)
+ #'   on each trait is computed. Default choice is 0.05.
 #' @return The output produced by this function is a list that consists of various components. 
 #'    \item{variantName}{It is the name of the genetic variant provided by the user. If not
-#'     specified by the user, default name is `variant'.} 
+#'     specified by the user, default name is `Variant'.} 
 #'    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures
 #'     the evidence of the overall pleiotropic association.}
 #'    \item{PPNA}{It provides the posterior probability of null association produced by
 #'     CPBayes (a Bayesian analog of the p-value) which is another measure of the evidence
-#'      of aggregate-level pleiotropic association.}
+#'      of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
+ #'      PPNA is solely a function of posterior odds. PPNA can sometimes be significantly small
+ #'      indicating an association, but log10_BF may not. Hence, always check both log10_BF and PPNA.}
 #'    \item{subset}{A data frame providing the optimal subset of associated/non-null traits
 #'     along with their trait-specific posterior probability of association (PPAj) and direction
 #'      of associations. It is NULL if no phenotype is selected by CPBayes.}
@@ -108,8 +110,8 @@
 #'     trait-specific posterior probability of association. We note that `important_traits'
 #'      is expected to include the traits already contained in `subset'. It provides the
 #'       name of the important traits and their trait-specific posterior probability of
-#'        association (PPAj) and the direction of associations. Always check out
-#'         'important_traits' even if 'subset' contains no trait or a single trait.
+#'        association (PPAj) and the direction of associations. Always check
+#'         'important_traits' even if 'subset' contains a single trait.
 #'          It helps to better explain an observed pleiotropic signal.}
 #'     \item{traitNames}{It returns the name of all the phenotypes specified by the user.
 #'      Default is trait1, trait2, ... , traitK.}
@@ -118,18 +120,18 @@
 #'     \item{poste_summary_beta}{Data frame providing the posterior summary of the
 #'      unknown true genetic effect (beta) on each trait. It gives posterior mean,
 #'       median, standard error, credible interval (lower and upper limits) of the
-#'        unknown true beta corresponding to each trait.}
+#'        true beta corresponding to each trait.}
 #'     \item{poste_summary_OR}{Data frame providing the posterior summary of the unknown
 #'      true genetic effect (odds ratio) on each trait. It gives posterior mean, median,
-#'       standard error, credible interval (lower and upper limits) of the unknown true odds 
+#'       standard error, credible interval (lower and upper limits) of the true odds 
 #'        ratio corresponding to each trait.}
 #'        
 #' @references Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
 #'  An efficient Bayesian meta-analysis 
-#'  approach for studying cross-phenotype genetic associations (submitted). Available
+#'  approach for studying cross-phenotype genetic associations (submitted), available
 #'  at: http://biorxiv.org/content/early/2017/01/18/101543.
 #'  
-#' @seealso \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{estimate_corln}}
+#' @seealso \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{forest_cpbayes}}, \code{\link{estimate_corln}}
 #' 
 #' @examples
 #' data(ExampleDataUncor)
@@ -226,7 +228,113 @@
             poste_summary_beta = poste_summary_beta, poste_summary_OR = poste_summary_OR )
  }
 
-
-
-
-
+ 
+##===========================********** Forest plot for a pleiotropy signal ***********==========================##
+## (1-level)% confidence interval of beta parameter is to be plotted in the forest plot. default value of level = 0.05.
+##===========================*************************************************************==========================## 
+## Forest plot presenting pleiotropy result obtained by CPBayes.
+#' Forest plot presenting pleiotropy result obtained by CPBayes.
+#' 
+#' Run the \code{\link{forest_cpbayes}} function to create a forest plot that presents the pleiotropy result obtained
+#' by \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}.
+#'      
+#' @param mcmc_output A list returned by either 
+#'  \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list 
+#' contains all the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
+#'  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.
+#' @param level A numeric value. (1-level)\% confidence interval of the unknown true genetic effect (beta/log(odds ratio))
+#'   on each trait is plotted in the forest plot. Default choice is 0.05.
+#' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
+#'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
+#'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
+#'    \item{Title}{At the top of the figure, variant name and the corresponding log10(Bayes factor) and PPNA produced by CPBayes is stated.}
+#'    \item{Column1}{First column in the figure specifies the name of the phenotypes.}
+#'    \item{Column2}{Second column provides the trait-specific univariate association p-values for each trait.}
+#'    \item{Column3}{Third column provides the trait-specific posterior probability of association (PPAj) produced by CPBayes.}
+#'    \item{Column4}{Fourth column states whether a phenotype was selected in the optimal subset of associated/non-null traits
+#'    detected by CPBayes. If a phenotype was not selected, selected and positively associated, selected and negatively associated,
+#'     its association status is stated as null, positive, and negative, respectively.}
+#'    \item{Column5}{In the right section of the figure, the primary eatimate and confidence interval of the beta/log(odds ratio) parameter for
+#'     each trait is plotted.}
+#' @references Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
+#'  An efficient Bayesian meta-analysis 
+#'  approach for studying cross-phenotype genetic associations (submitted), available
+#'  at: http://biorxiv.org/content/early/2017/01/18/101543.
+#'  
+#' @seealso \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{post_summaries}}, \code{\link{estimate_corln}}
+#' 
+#' @examples
+#' data(ExampleDataUncor)
+#' BetaHat <- ExampleDataUncor$BetaHat
+#' SE <- ExampleDataUncor$SE
+#' traitNames <- paste("Disease", 1:10, sep = "")
+#' SNP1 <- "rs1234"
+#' result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1)
+#' forest_cpbayes(result, level = 0.05) 
+#' 
+#' @export
+forest_cpbayes <- function(mcmc_output, level = 0.05){
+   
+   library("forestplot")                                   ## need to include in the require function
+   
+   result <- mcmc_output
+   betahat <- result$auxi_data$betahat
+   se <- result$auxi_data$se
+   summ <- post_summaries(result)                          ## summary of CPBayes results
+   traits <- summ$traitNames                               ## phenotypes
+   K <- length(traits)                                     ## number of traits
+   selection <- rep("null", K)                             ## if no trait is selected
+   
+   if(is.null(summ$subset) == FALSE){
+     selected_traits <- summ$subset$traits
+     select_trait_posi <- match(selected_traits, traits)
+     direction <- summ$subset$direction
+     selection[select_trait_posi] <- direction
+   }
+   
+   upper_alfa <- abs(qnorm( (level/2), 0,1))
+   shift <- upper_alfa*se
+   lowCIbeta <- betahat - shift                            ## lower confidence interval of beta
+   upCIbeta <- betahat + shift                             ## upper confidence interval of 
+   pvalues <- pchisq( (betahat/se)^2, df=1, lower.tail=F )
+   
+   for(j in 1:K){
+     x <- pvalues[j]
+     count <- 0
+     while(x < 1){ x <- 10*x; count <- count+1 }
+     pvalues[j] <- round(pvalues[j], digits = count)     ## or, digits = count 
+   }
+   
+   PPAj <- round(100*summ$PPAj$PPAj, digits = 1)
+   PPAj <- paste(as.character(PPAj), "%", sep = "")
+   labeltext <- data.frame( Trait = traits, Pvalue = as.character(pvalues), PPAj = PPAj, selection = selection, stringsAsFactors = FALSE )
+   
+   df_names <- data.frame( Trait = "Trait", Pvalue = "pvalue", PPAj = "PPAj", selection = "association", stringsAsFactors=F)
+   labeltext = rbind(df_names,labeltext)
+   
+   betahat <- c(NA, betahat)
+   lowCIbeta <- c(NA, lowCIbeta)
+   upCIbeta <- c(NA, upCIbeta)
+   
+   
+   log10BF <- round(summ$log10_BF, digits = 2)
+   PPNA <- summ$PPNA
+   x <- PPNA
+   count <- 0
+   while(x < 1){ x <- 10*x; count <- count+1 }
+   PPNA <- round(PPNA, digits = count+1)
+   
+   title <- summ$variantName
+   pdffile <- paste(title, ".pdf", sep = "")
+   title <- paste("Pleiotropy at ", title, ": log10BF = ", log10BF, ", PPNA = ", PPNA, sep = "")   ##  "PPNA = ", PPNA,
+   pdf(pdffile)
+   
+   forestplot(labeltext, betahat, lowCIbeta, upCIbeta, zero = 0, lineheight = "auto", boxsize = 0.12, 
+              xlab = "Estimate and CI of log(OR)", col = fpColors(lines="red", box="darkred"),
+              title = title, new_page = FALSE)
+   
+   dev.off()
+   
+ }
+ 
+ 

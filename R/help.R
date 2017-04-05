@@ -89,7 +89,8 @@ checkCorln <- function(Corln, BetaHat)
     stop("Number of rows of Corln and length of BetaHat do not match!", call. = FALSE)
   # Save as matrix
     Cor <- as.matrix(Corln)
-  # Check whether a symmetric matrix
+  # Check whether a symmetric matrix. First, make row names and col names identical.
+    row.names(Cor) <- colnames(Cor)
   if(!isSymmetric(Cor))
     stop("Corln is not symmetric!", call. = FALSE)
   # Check whether a negative definite matrix
@@ -155,6 +156,9 @@ chkEstCorln <- function(n11, n00, n10)
   chk_n_stp1(n10, "n10")
   if((nrow(n11) != nrow(n00)) || (nrow(n10) != nrow(n00)))
     stop("n11, n00, n10 matrices must have same dimension.", call. = FALSE)
+  row.names(n11) <- colnames(n11)
+  row.names(n00) <- colnames(n00)
+  row.names(n10) <- colnames(n10)
   if(!isSymmetric(n11))
     stop("n11 must be symmetric!", call. = FALSE)
   if(!isSymmetric(n00))

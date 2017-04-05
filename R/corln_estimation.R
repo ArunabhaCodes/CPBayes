@@ -1,31 +1,38 @@
 ## Function to estimate correlation using case-control sample overlap matrix
 #' Estimate correlation structure of beta-hat vector for multiple overlapping case-control studies
-#' or a cohort study using sample-overlap matrix.
+#' using sample-overlap matrices.
 #'
-#' Compute an approximate correlation matrix of the beta-hat vector for multiple overlapping
-#'  case-control studies or a cohort study using the sample-overlap matrices which describe
+#' It computes an approximate correlation matrix of the estimated  beta (log(odds ratio)) vector for multiple overlapping
+#' case-control studies using the sample-overlap matrices which describe
 #' the number of cases or controls shared between studies/traits, and the number of subjects
-#' who are case for one study/trait but control for another study/trait. This approximation is more accurate
-#' when none of the diseases/traits is associated with the environmental covariates present in the study.
+#' who are case for one study/trait but control for another study/trait. For a cohort study,
+#' the phenotypic correlation matrix should be a reasonable substitute of this correlation matrix.
+#' These approximations are accurate when none of the diseases/traits is associated with
+#' the environmental covariates and genetic variant.
 #'   
 #'***Important note on the estimation of correlation structure of correlated beta-hat vector:***
 #' In general, environmental covariates are expected to be present in a study and associated
-#' with the phenotypes of interest. Hence the above approximation of the correlation matrix
-#' may not be completely accurate. So, in presence of environmental covariates, we recommend
+#' with the phenotypes of interest. Also, a small proportion of genome-wide genetic variants
+#'  are expected to be associated. Hence the above approximation of the correlation matrix
+#' may not be accurate. So in general, we recommend
 #' an alternative strategy to estimate the correlation matrix using the genome-wide summary
 #' statistics data across traits as follows. First, extract all the SNPs for each of which the
 #' trait-specific univariate association p-value across all the traits are > 0.1. The
-#' trait-specific univariate association p-values can be obtained based on the beta-hat
+#' trait-specific univariate association p-values are obtained using the beta-hat
 #' and standard error for each trait. Each of the SNPs selected in this way is either weakly
 #' or not associated with any of the phenotypes (null SNP). Next, select a set of independent
 #' null SNPs from the initial set of null SNPs by using a threshold of r^2 < 0.01 (r: the 
-#' correlation between the genotypes at a pair of SNPs). Finally, compute the correlation
+#' correlation between the genotypes at a pair of SNPs). In the absence of in-sample
+#' linkage disequilibrium (LD) information, one can use the reference panel LD information
+#' for this screening. Finally, compute the correlation
 #' matrix of the effect estimates (beta-hat vector) as the sample correlation matrix of the
 #' beta-hat vector across all the selected independent null SNPs. This strategy is more
 #' general and applicable to a cohort study or multiple overlapping studies for binary or
-#' quantitative traits with arbitrary distributions. Misspecification of the correlation
+#' quantitative traits with arbitrary distributions. It is also useful when the beta-hat vector
+#'  for multiple non-overlapping studies become correlated due to genetically related
+#'   individuals across studies. Misspecification of the correlation
 #' structure can affect the results produced by CPBayes to some extent. Hence, if 
-#' genome-wide summary statistics data across traits is available, we recommend to use
+#' genome-wide summary statistics data across traits is available, we highly recommend to use
 #' this alternative strategy to estimate the correlation matrix of the beta-hat vector.
 #' See our paper for more details at:  http://biorxiv.org/content/early/2017/01/18/101543. 
 #'  
@@ -33,13 +40,13 @@
 #' studies/traits) providing the
 #' number of cases shared between all possible pairs of studies/traits. So (k,l)-th element of n11
 #' is the number of subjects who are case for both k-th and l-th study/trait. Note that the diagonal elements of
-#' n11 are the number of cases across studies/traits. In case, no case is shared between studies/traits,
+#' n11 are the number of cases in the studies/traits. If no case is shared between studies/traits,
 #' the off-diagonal elements of n11 will be zero. No default is specified.
 #' @param n00 An integer square matrix (number of rows must be the same as the
 #' number of studies/traits) providing the
 #' number of controls shared between all possible pairs of studies/traits. So (k,l)-th element of n00
 #' is the number subjects who are control for both k-th and l-th study/trait. Note that the diagonal
-#' elements of n00 are the number of controls across studies/traits. In case, no control is
+#' elements of n00 are the number of controls in the studies/traits. If no control is
 #'  shared between studies/traits,
 #' the off-diagonal elements will be zero. No default is specified.
 #' @param n10 An integer square matrix (number of rows must be the same as the
@@ -51,11 +58,11 @@
 #' all the elements
 #' of n10 will be zero. No default is specified.
 #' @return This function returns an approximate correlation matrix of the beta-hat vector for 
-#' multiple overlapping case-control studies or a cohort study. See the example below.
+#' multiple overlapping case-control studies. See the example below.
 #'
 #' @references Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
 #'  An efficient Bayesian meta-analysis 
-#'  approach for studying cross-phenotype genetic associations (submitted). Available
+#'  approach for studying cross-phenotype genetic associations (submitted), available
 #'  at: http://biorxiv.org/content/early/2017/01/18/101543.
 #'  
 #' @seealso \code{\link{cpbayes_cor}}

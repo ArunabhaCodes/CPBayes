@@ -20,7 +20,7 @@
 
  ##library("MASS")                                               ## MASS package is required
 
- CPBayes_cor = function(variantName, traitNames, X, s.e., corln, updateDE, RP, burn.in)
+ CPBayes_cor = function(variantName, traitNames, X, s.e., corln, updateDE, MinSlabVar, MaxSlabVar, RP, burn.in)
  {
      set.seed(10)
      K = length(X)
@@ -37,12 +37,13 @@
 
      ## set the initial choices of parameters     
      tau <- 0.01                                               ## spike sd
-     nonNullVar <- 1                                           ## central value of slab variance 
+     CentralSlabVar <- (MinSlabVar+MaxSlabVar)/2
+     nonNullVar <- CentralSlabVar                              ## central value of slab variance 
      de <- sqrt(tau^2/nonNullVar)                              ## 1/de - ratio of spike and slab variances
 
      ## specfications for updating 'de' parameter
-     min_var <- 0.8                                            ## minimum value of spike variance
-     max_var <- 1.2                                            ## maximum value of slab variance
+     min_var <- MinSlabVar                                     ## minimum value of spike variance
+     max_var <- MaxSlabVar                                     ## maximum value of slab variance
      max_de <- tau/sqrt(min_var)                               ## maximum choice of 'de' parameter
      min_de <- tau/sqrt(max_var)                               ## minimum choice of 'de'
      shape1_de <- 1                                            ## choice of shape1 parameter of Beta(shape1,1) prior of updating 'de'
@@ -112,7 +113,7 @@
      ## return the outputs
      data = list( variantName = variantName, log10_BF = log10_BF_cor, PPNA = PPNA.cor, subset = selected_traits, 
                   important_traits = important_phenos, auxi_data = list( traitNames = traitNames, K = K, 
-                  mcmc.samplesize = mcmc.samplesize, PPAj = asso.pr, Z.data = Z.data, sim.beta = sim.beta ) )
+                  mcmc.samplesize = mcmc.samplesize, PPAj = asso.pr, Z.data = Z.data, sim.beta = sim.beta, betahat = X, se = s.e. ) )
  }
  
  
@@ -140,13 +141,13 @@
 
  ## combined strategy using both of the correlated and uncorrelated versions of the Bayes meta analysis for using in correlated case
  
- combined_CPBayes = function(variantName, traitNames, X, s.e., corln, updateDE, RP, burn.in)
+ combined_CPBayes = function(variantName, traitNames, X, s.e., corln, updateDE, MinSlabVar, MaxSlabVar, RP, burn.in)
  {
      ptm1 <- proc.time()
      K = length(X)
      
      ## First, run correlated version of CPBayes
-     res_cor = CPBayes_cor(variantName, traitNames, X, s.e., corln, updateDE, RP, burn.in)           
+     res_cor = CPBayes_cor(variantName, traitNames, X, s.e., corln, updateDE, MinSlabVar, MaxSlabVar, RP, burn.in)           
 
      selected_traits = res_cor$subset
      cor.subset <- match(selected_traits, traitNames)
@@ -170,7 +171,7 @@
          Sum = diff%*%diff
          ## implementing uncor CPBayes if the checking is not satisfied
          if(Sum > 0){
-             res_uncor = CPBayes_uncor( variantName, traitNames, X, s.e., updateDE, RP, burn.in )   
+             res_uncor = CPBayes_uncor( variantName, traitNames, X, s.e., updateDE, MinSlabVar, MaxSlabVar, RP, burn.in )   
              indi_uncor = 1 
          }
      }
