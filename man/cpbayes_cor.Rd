@@ -4,69 +4,85 @@
 \alias{cpbayes_cor}
 \title{Run correlated version of CPBayes.}
 \usage{
-cpbayes_cor(BetaHat, SE, Corln, Phenotypes, Variant, UpdateDE = TRUE,
-  MCMCiter = 20000, Burnin = 10000)
+cpbayes_cor(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar = TRUE,
+  MinSlabVar = 0.8, MaxSlabVar = 1.2, MCMCiter = 20000, Burnin = 10000)
 }
 \arguments{
-\item{BetaHat}{A numeric vector of dimension K where K is the number of phenotypes. It
+\item{BetaHat}{A numeric vector of length K where K is the number of phenotypes. It
 contains the beta-hat values across studies/traits. No default is specified.}
 
 \item{SE}{A numeric vector with the same dimension as BetaHat providing the standard errors
 corresponding to BetaHat. Every element of SE must be positive. No default is specified.}
 
 \item{Corln}{A numeric square matrix of order K by K providing the correlation matrix of BetaHat.
-The number of rows of Corln must be the same as the dimension of the BetaHat vector. No default
- is specified.}
+The number of rows & columns of Corln must be the same as the length of BetaHat. No default
+ is specified. See \code{\link{estimate_corln}}.}
 
-\item{Phenotypes}{A character vector of the same dimension as BetaHat providing the name
+\item{Phenotypes}{A character vector of the same length as BetaHat providing the name
 of the phenotypes. Default is specified as trait1, trait2, . . . , traitK. Note that
  BetaHat, SE, Corln, and Phenotypes must be in the same order.}
 
-\item{Variant}{A character vector of length 1 providing the name of the genetic variant.
+\item{Variant}{A character vector of length one providing the name of the genetic variant.
 Default is `Variant'.}
 
-\item{UpdateDE}{A logical vector of length 1. Default is TRUE. If FALSE,
-the variance of the slab distribution is considered to be fixed at 1. If TRUE, it is
- updated at each MCMC iteration in a range (0.8-1.2).}
+\item{UpdateSlabVar}{A logical vector of length one. If TRUE, the variance of the slab distribution
+that presents the prior distribution of non-null effects is
+updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE, 
+ it is fixed at (MinSlabVar + MaxSlabVar)/2. Default is TRUE.}
 
-\item{MCMCiter}{A positive integer greater than or equal to 10,000. Default is 20,000.}
+\item{MinSlabVar}{A numeric value greater than 0.1 providing the minimum value of the
+variance of the slab distribution. Default is 0.8.}
 
-\item{Burnin}{A positive integer greater than or equal to 5,000. Default is 10,000.
-Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.}
+\item{MaxSlabVar}{A numeric value smaller than 10.0 providing the maximum value of the
+variance of the slab distribution. Default is 1.2. **Note that,
+a smaller value of the slab variance will increase the sensitivity of CPBayes while selecting the optimal
+ subset of associated traits but at the expense of lower specificity. Hence the slab variance
+ parameter in CPBayes is inversely related to the level of false discovery rate (FDR) in a frequentist
+ FDR controlling procedure. For a specific dataset, an user
+  can experiment different choices of these three arguments: UpdateSlabVar, MinSlabVar, and MaxSlabVar.}
+
+\item{MCMCiter}{A positive integer greater than or equal to 10,000 providing the total number of
+iterations in the MCMC. Default is 20,000.}
+
+\item{Burnin}{A positive integer greater than or equal to 5,000 providing the burn in period 
+in the MCMC. Default is 10,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.}
 }
 \value{
 The output produced by \code{\link{cpbayes_cor}} is a list which consists of various components.
    \item{variantName}{It is the name of the genetic variant provided by the user. If 
-   not specified by the user, default name is `variant'.} 
+   not specified by the user, default name is `Variant'.} 
    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures the
     evidence of the overall pleiotropic association.}
    \item{PPNA}{It provides the posterior probability of null association produced by
     CPBayes (a Bayesian analog of the p-value) which is another measure of the evidence
-     of aggregate-level pleiotropic association.}
-   \item{subset}{It provides the optimal subset of associated/non-null traits estimated by
-    CPBayes. It is NULL if no phenotype is selected by CPBayes.}
+     of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
+     PPNA is solely a function of the posterior odds. PPNA can sometimes be small
+     indicating an association, but log10_BF may not indicate an association. Hence, always check both log10_BF and PPNA.}
+   \item{subset}{It provides the optimal subset of associated/non-null traits selected by
+    CPBayes. It is NULL if no phenotype is selected.}
    \item{important_traits}{It provides the traits which yield a trait-specific posterior 
    probability of association (PPAj) > 25\%. Even if a phenotype is not 
    selected in the optimal subset of non-null traits, it can produce a non-negligible
-    value of PPAj. We note that `important_traits' is expected to include the traits already
+    value of PPAj. Note that, `important_traits' is expected to include the traits already
      contained in `subset'. It provides both the name of the important traits and their
-      corresponding value of PPAj. Always check out 'important_traits' even if 'subset' contains
-        no trait or a single trait. It helps to better explain an observed pleiotropic signal.}
-   \item{auxi_data}{It contains supplementary data generated by the MCMC which is used later by the
-    \code{\link{post_summaries}} function to provide additional insights into a pleiotropic signal.
-     The supplementary data contained in auxi_data are as follows.
+      corresponding value of PPAj. Always check 'important_traits' even if 'subset' contains
+       a single trait. It helps to better explain an observed pleiotropic signal.}
+   \item{auxi_data}{It contains supplementary data including the MCMC data which is used later 
+    by \code{\link{post_summaries}} and \code{\link{forest_cpbayes}}:
        \enumerate{
            \item traitNames: Name of all the phenotypes.
            \item K: Total number of phenotypes.
            \item mcmc.samplesize: MCMC sample size.
-           \item asso.pr: Trait-specific posterior probability for all the traits. 
-           \item Z.data: MCMC data on the latent association status (Z).
+           \item PPAj: Trait-specific posterior probability of association for all the traits. 
+           \item Z.data: MCMC data on the latent association status of all the traits (Z).
            \item sim.beta: MCMC data on the unknown true genetic effect (beta) on each trait.
+           \item betahat: The beta-hat vector provided by the user which will be used by \code{\link{forest_cpbayes}}.
+           \item se: The standard error vector provided by the user which will be used by \code{\link{forest_cpbayes}}.
        }
    }
    \item{uncor_use}{'Yes' or 'No'. Whether the combined strategy of CPBayes (implemented for correlated
     summary statistics) used the uncorrelated version or not.}
-   \item{runtime}{It provides the runtime (in seconds) taken by CPBayes. It will help the user to
+   \item{runtime}{It provides the runtime (in seconds) taken by \code{\link{cpbayes_cor}}. It will help the user to
     plan the whole analysis.}
 }
 \description{
@@ -91,10 +107,10 @@ str(result)
 \references{
 Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
  An efficient Bayesian meta-analysis 
- approach for studying cross-phenotype genetic associations (submitted). Available
+ approach for studying cross-phenotype genetic associations (submitted), available
  at: http://biorxiv.org/content/early/2017/01/18/101543.
 }
 \seealso{
-\code{\link{estimate_corln}}, \code{\link{post_summaries}}, \code{\link{cpbayes_uncor}}
+\code{\link{estimate_corln}}, \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{cpbayes_uncor}}
 }
 

@@ -43,5 +43,7 @@
 #' @name CPBayes
 #'
 #' @importFrom MASS mvrnorm
-#' @importFrom stats runif rnorm rbeta quantile qchisq qbeta pchisq pbeta p.adjust dist aggregate sd
+#' @importFrom stats runif rnorm rbeta quantile qchisq qbeta pchisq pbeta p.adjust dist aggregate sd qnorm
+#' @importFrom forestplot forestplot fpColors
+#' @importFrom grDevices dev.off pdf
 NULL

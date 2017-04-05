@@ -7,24 +7,26 @@
 post_summaries(mcmc_output, level = 0.05)
 }
 \arguments{
-\item{mcmc_output}{A list returned by either of the two main CPBayes functions
- \code{\link{cpbayes_uncor}} and \code{\link{cpbayes_cor}}. This list 
-contains all the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
+\item{mcmc_output}{A list returned by either 
+ \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list 
+contains the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.}
 
 \item{level}{A numeric value. (1-level)\% credible interval (Bayesian analog of the
-confidence interval) is computed for the true unknown genetic effect (beta/odds ratio)
- on the traits. Default choice is 0.05.}
+confidence interval) of the unknown true genetic effect (beta/odds ratio)
+ on each trait is computed. Default choice is 0.05.}
 }
 \value{
 The output produced by this function is a list that consists of various components. 
    \item{variantName}{It is the name of the genetic variant provided by the user. If not
-    specified by the user, default name is `variant'.} 
+    specified by the user, default name is `Variant'.} 
    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures
     the evidence of the overall pleiotropic association.}
    \item{PPNA}{It provides the posterior probability of null association produced by
     CPBayes (a Bayesian analog of the p-value) which is another measure of the evidence
-     of aggregate-level pleiotropic association.}
+     of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
+     PPNA is solely a function of posterior odds. PPNA can sometimes be significantly small
+     indicating an association, but log10_BF may not. Hence, always check both log10_BF and PPNA.}
    \item{subset}{A data frame providing the optimal subset of associated/non-null traits
     along with their trait-specific posterior probability of association (PPAj) and direction
      of associations. It is NULL if no phenotype is selected by CPBayes.}
@@ -34,8 +36,8 @@ The output produced by this function is a list that consists of various componen
     trait-specific posterior probability of association. We note that `important_traits'
      is expected to include the traits already contained in `subset'. It provides the
       name of the important traits and their trait-specific posterior probability of
-       association (PPAj) and the direction of associations. Always check out
-        'important_traits' even if 'subset' contains no trait or a single trait.
+       association (PPAj) and the direction of associations. Always check
+        'important_traits' even if 'subset' contains a single trait.
          It helps to better explain an observed pleiotropic signal.}
     \item{traitNames}{It returns the name of all the phenotypes specified by the user.
      Default is trait1, trait2, ... , traitK.}
@@ -44,10 +46,10 @@ The output produced by this function is a list that consists of various componen
     \item{poste_summary_beta}{Data frame providing the posterior summary of the
      unknown true genetic effect (beta) on each trait. It gives posterior mean,
       median, standard error, credible interval (lower and upper limits) of the
-       unknown true beta corresponding to each trait.}
+       true beta corresponding to each trait.}
     \item{poste_summary_OR}{Data frame providing the posterior summary of the unknown
      true genetic effect (odds ratio) on each trait. It gives posterior mean, median,
-      standard error, credible interval (lower and upper limits) of the unknown true odds 
+      standard error, credible interval (lower and upper limits) of the true odds 
        ratio corresponding to each trait.}
 }
 \description{
@@ -71,10 +73,10 @@ str(PleioSumm)
 \references{
 Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
  An efficient Bayesian meta-analysis 
- approach for studying cross-phenotype genetic associations (submitted). Available
+ approach for studying cross-phenotype genetic associations (submitted), available
  at: http://biorxiv.org/content/early/2017/01/18/101543.
 }
 \seealso{
-\code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{estimate_corln}}
+\code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{forest_cpbayes}}, \code{\link{estimate_corln}}
 }
 

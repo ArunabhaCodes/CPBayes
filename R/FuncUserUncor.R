@@ -114,12 +114,18 @@ cpbayes_uncor <- function(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE
 		}
 		else variantName <- "Variant"
 
-	# Argument 5 :: Update model parameter DE
-		if(!is.logical(UpdateDE))
-		{
-		  warning("UpdateDE not provided as logical (default option used).", call. = FALSE)
-		  UpdateDE <- TRUE
-		}
+    # Argument 5 :: Update model parameter DE
+    # Check whether argument 5 is a vector of length 1
+    if(!is.vector(UpdateDE) || (length(UpdateDE) != 1))
+    {
+      warning("UpdateSlabVar is not a vector of length 1 (default option used).", call. = FALSE)
+      UpdateDE <- TRUE
+    }
+    if(!is.logical(UpdateDE))
+    {
+      warning("UpdateSlabVar not provided as logical (default option used).", call. = FALSE)
+      UpdateDE <- TRUE
+    }
 
   # Argument 6 & 7:: Minimum and maximum value of slab variance
     MinSlabVarDefault <- 0.8

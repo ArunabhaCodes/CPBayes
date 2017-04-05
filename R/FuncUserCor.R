@@ -128,9 +128,15 @@ cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar =
   else variantName <- "Variant"
   
     # Argument 6 :: Update model parameter DE
+    # Check whether argument 6 is a vector of length 1
+    if(!is.vector(UpdateDE) || (length(UpdateDE) != 1))
+    {
+      warning("UpdateSlabVar is not a vector of length 1 (default option used).", call. = FALSE)
+      UpdateDE <- TRUE
+    }
     if(!is.logical(UpdateDE))
     {
-      warning("UpdateDE not provided as logical (default option used).", call. = FALSE)
+      warning("UpdateSlabVar not provided as logical (default option used).", call. = FALSE)
       UpdateDE <- TRUE
     }
 

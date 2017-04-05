@@ -1,10 +1,4 @@
-context("Input UpdateDR, MCMCiter and Burnin of function for uncorrelated version")
-
-test_that("Throws warning if UpdateDE parameter is not logical", {
-  expect_warning(cpbayes_uncor(1:10, 1:10, UpdateDE = 1), "UpdateDE not provided as logical*")
-  expect_warning(cpbayes_uncor(1:10, 1:10, UpdateDE = 1:10), "UpdateDE not provided as logical*")
-  expect_warning(cpbayes_uncor(1:10, 1:10, UpdateDE = "TRUE"), "UpdateDE not provided as logical*")
-})
+context("Input MCMCiter and Burnin of function for uncorrelated version")
 
 test_that("Throws warning if MCMCiter parameter is not a integer greater than a cutoff", {
   expect_warning(cpbayes_uncor(1:10, 1:10, MCMCiter = 1), "MCMCiter should be at least 10000*")

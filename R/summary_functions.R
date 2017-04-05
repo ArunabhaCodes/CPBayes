@@ -275,8 +275,6 @@
 #' @export
 forest_cpbayes <- function(mcmc_output, level = 0.05){
    
-   library("forestplot")                                   ## need to include in the require function
-   
    result <- mcmc_output
    betahat <- result$auxi_data$betahat
    se <- result$auxi_data$se
@@ -334,7 +332,6 @@ forest_cpbayes <- function(mcmc_output, level = 0.05){
               title = title, new_page = FALSE)
    
    dev.off()
-   
  }
  
  

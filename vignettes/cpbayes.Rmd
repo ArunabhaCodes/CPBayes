@@ -2,7 +2,10 @@
 title: "CPBayes (Bayesian meta analysis for studying cross-phenotype genetic associations) package"
 author: "Arunabha Majumdar, Tanushree Haldar, John Witte"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    fig_width: 7
+    fig_height: 6
 vignette: >
   %\VignetteIndexEntry{CPBayes tutorial}
   %\VignetteEngine{knitr::rmarkdown}
