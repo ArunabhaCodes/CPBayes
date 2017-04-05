@@ -12,9 +12,7 @@ The result of build_win() for both devel and release (3.3.2) is
 
 Note is regarding the possible misspelling in the 'DESCRIPTION' file. Words listed here are: 'CPBayes', 'phenotypes', 'pleiotropic'. We confirm that these words are correctly spelled.
 
-* This is a new release.
-
 ## Reverse dependencies
 
-This is a new release, so there are no reverse dependencies.
+There is no reverse dependencies, checked with devtools::revdep_check()
 
