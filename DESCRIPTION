@@ -1,7 +1,7 @@
 Package: CPBayes
 Title: Bayesian Meta Analysis for Studying Cross-Phenotype Genetic Associations
 Version: 0.2.0
-Date: 2017-01-22
+Date: 2017-04-5
 Author: Arunabha Majumdar <statgen.arunabha@gmail.com> [aut, cre],
   Tanushree Haldar <tanushree.haldar@gmail.com> [aut],
   John Witte [ctb]
