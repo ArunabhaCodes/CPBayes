@@ -1,5 +1,10 @@
+## Resubmission
+This is a resubmission. In this version:
+
+* I have reduced the test run time to 27-28 sec (less than 3 minutes).
+
 ## Test environments
-* local OS X El Capitan, R 3.2.3
+* local OS X El Capitan, R 3.2.3, R 3.3.3
 * x86_64-pc-linux-gnu (on travis-ci), R 3.3.3
 * win-builder (devel(3.4.0 alpha) and release (3.3.3))
 
