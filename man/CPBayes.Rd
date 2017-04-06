@@ -41,10 +41,10 @@ and \code{\link{estimate_corln}}.
  sample-overlap matrices.}
 }
 }
+
 \references{
 Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
  An efficient Bayesian meta-analysis 
  approach for studying cross-phenotype genetic associations (submitted),
   available at: http://biorxiv.org/content/early/2017/01/18/101543.
 }
-

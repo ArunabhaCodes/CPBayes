@@ -104,4 +104,3 @@ Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
 \seealso{
 \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{cpbayes_cor}}, \code{\link{estimate_corln}}
 }
-

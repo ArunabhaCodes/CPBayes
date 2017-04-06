@@ -92,4 +92,3 @@ Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
 \seealso{
 \code{\link{cpbayes_cor}}
 }
-

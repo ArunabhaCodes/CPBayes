@@ -113,4 +113,3 @@ Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
 \seealso{
 \code{\link{estimate_corln}}, \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{cpbayes_uncor}}
 }
-

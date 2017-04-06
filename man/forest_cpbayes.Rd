@@ -52,4 +52,3 @@ Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
 \seealso{
 \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{post_summaries}}, \code{\link{estimate_corln}}
 }
-

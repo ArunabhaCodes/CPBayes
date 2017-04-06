@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. In this version:
 
-* I have reduced the test run time to 27-28 sec (less than 3 minutes).
+* I have reduced the test run time to 27-28 sec (less than 3 minutes) [checked with "R CMD check --as-cran"]
 
 ## Test environments
 * local OS X El Capitan, R 3.2.3, R 3.3.3

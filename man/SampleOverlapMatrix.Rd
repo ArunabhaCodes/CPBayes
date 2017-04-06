@@ -34,4 +34,3 @@ n10
 \donttest{estimate_corln(n11,n00,n10)}
 }
 \keyword{datasets}
-

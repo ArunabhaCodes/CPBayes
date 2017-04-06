@@ -37,4 +37,3 @@ SE
 \donttest{cpbayes_uncor(BetaHat, SE)}
 }
 \keyword{datasets}
-

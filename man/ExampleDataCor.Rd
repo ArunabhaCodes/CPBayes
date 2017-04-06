@@ -39,4 +39,3 @@ cor
 \donttest{cpbayes_cor(BetaHat, SE, cor)}
 }
 \keyword{datasets}
-

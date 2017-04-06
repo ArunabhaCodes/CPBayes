@@ -16,7 +16,7 @@ License: GPL-3
 LazyData: TRUE
 URL: https://github.com/ArunabhaCodes/CPBayes
 BugReports: https://github.com/ArunabhaCodes/CPBayes/issues
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests: testthat,
     knitr,
     rmarkdown
@@ -25,4 +25,3 @@ Imports: MASS,
     stats, 
     forestplot, 
     grDevices
-
