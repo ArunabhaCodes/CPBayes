@@ -1,2 +1,5 @@
 inst/doc
 .Rproj.user
+R/.DS_Store
+tests/testthat/.DS_Store
+R/.Rhistory
