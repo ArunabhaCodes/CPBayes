@@ -27,8 +27,8 @@
 #'    can experiment different choices of these three arguments: UpdateSlabVar, MinSlabVar, and MaxSlabVar.
 #' @param MCMCiter A positive integer greater than or equal to 10,000 providing the total number of
 #'  iterations in the MCMC. Default is 20,000.
-#' @param Burnin A positive integer greater than or equal to 5,000 providing the burn in period 
-#' in the MCMC. Default is 10,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.
+#' @param Burnin A positive integer greater than or equal to 2,000 providing the burn in period 
+#' in the MCMC. Default is 5,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.
 #' @return The output produced by the function is a list which consists of various components. 
 #'    \item{variantName}{It is the name of the genetic variant provided by the user. If not
 #'     specified by the user, default name is `Variant'.} 
@@ -83,7 +83,7 @@
 #' str(result)
 #' 
 #' @export
-cpbayes_uncor <- function(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE, MinSlabVar = 0.6, MaxSlabVar = 1.0, MCMCiter = 20000, Burnin = 10000)
+cpbayes_uncor <- function(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE, MinSlabVar = 0.6, MaxSlabVar = 1.0, MCMCiter = 20000, Burnin = 5000)
 {
   
   UpdateDE <- UpdateSlabVar
@@ -198,7 +198,7 @@ cpbayes_uncor <- function(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE
 		}
 			
 	# Argument 9 :: Burnin
-    BurninDefault <- 10000
+    BurninDefault <- 5000
     # Check whether argument 9 is a vector of length 1
     if(!is.vector(Burnin) || (length(Burnin) != 1))
     {
@@ -211,10 +211,10 @@ cpbayes_uncor <- function(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE
 		  warning("Burnin not provided as integer (default option used).", call. = FALSE)
 		  Burnin <- BurninDefault
 		}
-		# Check whether argument 9 is more than 5000
-		if(Burnin < 5000)
+		# Check whether argument 9 is more than 2000
+		if(Burnin < 2000)
 		{
-		  warning("Burnin should be at least 5000 (default option used).", call. = FALSE)
+		  warning("Burnin should be at least 2000 (default option used).", call. = FALSE)
 		  Burnin <- BurninDefault
 		}
     
