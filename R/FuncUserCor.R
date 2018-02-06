@@ -19,10 +19,10 @@
 #'  that presents the prior distribution of non-null effects is
 #'  updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE, 
 #'   it is fixed at (MinSlabVar + MaxSlabVar)/2. Default is TRUE.
-#' @param MinSlabVar A numeric value greater than 0.1 providing the minimum value of the
-#'  variance of the slab distribution. Default is 0.8.
+#' @param MinSlabVar A numeric value greater than 0.01 providing the minimum value of the
+#'  variance of the slab distribution. Default is 0.6.
 #' @param MaxSlabVar A numeric value smaller than 10.0 providing the maximum value of the
-#'  variance of the slab distribution. Default is 1.2. **Note that,
+#'  variance of the slab distribution. Default is 1.0. **Note that,
 #'  a smaller value of the slab variance will increase the sensitivity of CPBayes while selecting the optimal
 #'   subset of associated traits but at the expense of lower specificity. Hence the slab variance
 #'   parameter in CPBayes is inversely related to the level of false discovery rate (FDR) in a frequentist
@@ -91,7 +91,7 @@
 #' 
 #' 
 #' @export
-cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar = TRUE, MinSlabVar = 0.8, MaxSlabVar = 1.2, MCMCiter = 20000, Burnin = 10000)
+cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar = TRUE, MinSlabVar = 0.6, MaxSlabVar = 1.0, MCMCiter = 20000, Burnin = 10000)
 {
   
   UpdateDE <- UpdateSlabVar
@@ -141,9 +141,9 @@ cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar =
     }
 
     # Argument 7 & 8:: Minimum and maximum value of slab variance
-    MinSlabVarDefault <- 0.8
-    MaxSlabVarDefault <- 1.2
-    MinSlabVarBound <- 0.1
+    MinSlabVarDefault <- 0.6
+    MaxSlabVarDefault <- 1.0
+    MinSlabVarBound <- 0.01
     MaxSlabVarBound <- 10.0
     
     # Check whether argument 7 is a vector of length 1
