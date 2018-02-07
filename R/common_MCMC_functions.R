@@ -7,60 +7,71 @@
 
 
 
+################################ Function implementing the FDR procedure #############################
+
+BH_selection <- function(pv, traits, level){
+
+  K <- length(pv)                                  ## Number of phenotypes
+  pval <- matrix(0, K, 2)
+  pval[ ,1] <- seq(1,K)
+  pval[ ,2] <- pv
+  pval <- pval[order(pval[,2]), ]
+
+  cutoff <- seq(1,K) * (1/K) * level
+  comparison <- pval[ ,2] - cutoff
+
+  selected_traits <- NULL
+
+  if(any(comparison <= 0) == TRUE){
+    BH_posi <- max(which(comparison <= 0))
+    select_index <- sort(pval[1:BH_posi,1])
+    selected_traits <- traits[select_index]
+  }
+
+  return(selected_traits)
+}
+##################################***************************************###################################
+
+
 
                          ##*************** initialization for the CpgBayes MCMC ****************##
 
-                                                        
+
 initiate_MCMC <- function( K, X, s.e. )
 {
-	
-	                                                           ## minimum and maximum choices of the intial value of q 
-     min.q = 0.05                                      
+                                                                   
+                                                                   ## minimum and maximum choices of the intial value of q 
+     min.q = 0.05
      max.q = 0.95
-
+     
      q.mode = min.q
-
+                                                               
                                                                ## level of FDR correction in the BY or BH procedure
-     level = 0.05
+     level = 0.01 
      pv = pchisq( (X/s.e.)^2, df=1, lower.tail=F )
-
-     adj.pv <- p.adjust(pv,method="BY",n=length(pv))           ## the correction by Benjamini-Yekutielli
-     #adj.pv <- p.adjust(pv,method="fdr",n=length(pv))         ## the correction by Benjamini-Hochberg 
-
-     sort.pv <- sort(adj.pv,index.return = TRUE)
-     sorted <- sort.pv$x 
-     sorted.index <- sort.pv$ix
-
-     K1.FDR = length(which(sorted <= level))
-
-     nonnull.set = 0 
-     beta = rep(0,K)                                           ## initiate the beta parameters to zero
-
+     traits <- paste0("Trait", 1:K)
+     
+     select <- BH_selection(pv, traits, level)
+     K1.FDR <- length(select)
+     
+     nonnull.set = 0                                           
+     Z = rep(0,K)                                              ## Introduce the allocations 
+     
      if( K1.FDR > 0 )
-     {
-         nonnull.set <- sorted.index[1:K1.FDR] ;
-         beta[nonnull.set] <- X[nonnull.set]
+     {   
+         nonnull.set <- match(select, traits)
+         Z[nonnull.set] <- rep(1, K1.FDR)
          q.mode = K1.FDR/K
      }
-
+     
      if( q.mode == 1 ) q.mode <- max.q
      
-                                                               ## Initial choice of p1 for q-integrated out model
-                                                               
-     #p1 <- 0
-     #if(q.mode < min.q) p1 = min.q else p1 = min(q.mode, max.q)
-
-                                                               ## Introduce the allocations     
-     Z <- rep(1,K) 
-     zero = which( beta == 0 )
-     if( length(zero) > 0 ) Z[zero] = 0
-
      beta = X                                                  ## beta = X, under continuous spike, beta is always non-zero
-
-     data <- list( beta = beta, Z = Z, q = q.mode )            ##  p1 = p1
+     
+     data <- list( beta = beta, Z = Z, q = q.mode, K1_FDR = K1.FDR )
 
 }
-
+                                                        
 
                          ##*************** Update allocations (Z) for both uncorrelated and correlated cases ****************##
                          ##*************** for the model in which q is included in the MCMC to be updated    ****************##
