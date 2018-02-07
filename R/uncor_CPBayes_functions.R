@@ -16,7 +16,7 @@
      set.seed(10)
 
      K = length(X)
-     PPAj_thr = 0.25                                           ## PPAj threshold
+     PPAj_thr = 0.20                                           ## PPAj threshold
 
      tau <- 0.01                                               ## choice of spike sd (var = tau^2)
      CentralSlabVar <- (MinSlabVar+MaxSlabVar)/2
@@ -29,14 +29,23 @@
      max_de <- tau/sqrt(min_var)                               ## maximum value of 'de'
      min_de <- tau/sqrt(max_var)                               ## mimimum value of 'de'
      shape1_de <- 1                                            ## shape1 parameter of the Beta prior of 'de' (shape2 parameter = 1, always)
-     shape1 <- 1                                               ## shape1 parameter for Beta prior of q
-     shape2 <- 1                                               ## shape2 parameter for Beta prior of q
-     
+
+    
      ## an informed initialization of the MCMC parameters 
      initiate <- initiate_MCMC( K, X, s.e. )
      beta <- initiate$beta
      Z <- initiate$Z
      q <- initiate$q
+     nA <- initiate$K1_FDR                                     ## number of associated traits
+
+     shape2 <- 1                                               ## shape2 parameter for Beta prior of q
+     LB <- 0.1; UB <- 0.5;
+     qm <- nA/K
+     if(qm < LB) qm <- LB
+     if(qm > UB) qm <- UB
+
+     #qm <- 0.25
+     shape1 <- (qm/(1-qm)) * shape2
 
      thinning <- 1                                             ## thinning period in the MCMC
 
