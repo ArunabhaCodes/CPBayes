@@ -24,14 +24,14 @@
  {
      set.seed(10)
      K = length(X)
-     PPAj_thr = 0.25                                           ## PPAj threshold
+     PPAj_thr = 0.20                                           ## PPAj threshold
      
      ## If the covariance matrix is not positive definite, the diagonal elements are incremented to make it PD 
-     S <- diag(s.e.)%*%corln%*%diag(s.e.)                                                               
+     S <- diag(s.e.)%*%corln%*%diag(s.e.)
      epsilon = 10^(-5)
      increment = rep(epsilon,K)
      while(det(S) <= 0)
-     {   diag(S) = diag(S)+increment 
+     {   diag(S) = diag(S)+increment
      }
      S.inv = solve(S)                                          ## inverse of the cov matrix to be passed in MCMC function
 
@@ -47,14 +47,26 @@
      max_de <- tau/sqrt(min_var)                               ## maximum choice of 'de' parameter
      min_de <- tau/sqrt(max_var)                               ## minimum choice of 'de'
      shape1_de <- 1                                            ## choice of shape1 parameter of Beta(shape1,1) prior of updating 'de'
-     shape1 <- 1; shape2 <- 1;                                 ## choices of the shape parameters for the Beta prior of 'q' (uniform prior)
-     
+
      ## an informed initialization 
      initiate <- initiate_MCMC( K, X, s.e. )
      beta <- initiate$beta
      Z <- initiate$Z
      q <- initiate$q
+     nA <- initiate$K1_FDR                                     ## number of associated traits
+
+     ## specify the shape parameters of 'q' prior
+     shape2 <- 1                                               ## shape2 parameter for Beta prior of q
+     LB <- 0.1; UB <- 0.5;
+     qm <- nA/K
+     if(qm < LB) qm <- LB
+     if(qm > UB) qm <- UB
+
+     #qm <- 0.25
+     shape1 <- (qm/(1-qm)) * shape2
+
      thinning <- 1                                             ## thinning period for MCMC
+
 
      mcmc.samplesize <- (RP-burn.in) %/% thinning; Z.data <- matrix(0,mcmc.samplesize,K); row <- 0 ;
      sim.beta <- matrix(0,mcmc.samplesize,K); sample_probZ_zero <- matrix(0,mcmc.samplesize,K);
