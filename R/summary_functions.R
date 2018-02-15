@@ -244,6 +244,9 @@
 #'  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.
 #' @param level A numeric value. (1-level)\% confidence interval of the unknown true genetic effect (beta/log(odds ratio))
 #'   on each trait is plotted in the forest plot. Default choice is 0.05.
+#' @param PPAj_cutoff A numeric value. It's a user-specified threshold of PPAj (trait-specific marginal posterior probability
+#'   of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of 
+#'   this variable as '0' includes all traits in the forest plot. 
 #' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
 #'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
@@ -273,8 +276,8 @@
 #' forest_cpbayes(result, level = 0.05) 
 #' 
 #' @export
-forest_cpbayes <- function(mcmc_output, level = 0.05){
-   
+forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.2){
+
    result <- mcmc_output
    betahat <- result$auxi_data$betahat
    se <- result$auxi_data$se
@@ -282,56 +285,68 @@ forest_cpbayes <- function(mcmc_output, level = 0.05){
    traits <- summ$traitNames                               ## phenotypes
    K <- length(traits)                                     ## number of traits
    selection <- rep("null", K)                             ## if no trait is selected
-   
+
    if(is.null(summ$subset) == FALSE){
      selected_traits <- summ$subset$traits
      select_trait_posi <- match(selected_traits, traits)
      direction <- summ$subset$direction
      selection[select_trait_posi] <- direction
    }
-   
+
    upper_alfa <- abs(qnorm( (level/2), 0,1))
    shift <- upper_alfa*se
    lowCIbeta <- betahat - shift                            ## lower confidence interval of beta
    upCIbeta <- betahat + shift                             ## upper confidence interval of 
    pvalues <- pchisq( (betahat/se)^2, df=1, lower.tail=F )
-   
+
    for(j in 1:K){
      x <- pvalues[j]
      count <- 0
      while(x < 1){ x <- 10*x; count <- count+1 }
      pvalues[j] <- round(pvalues[j], digits = count)     ## or, digits = count 
    }
-   
+
    PPAj <- round(100*summ$PPAj$PPAj, digits = 1)
+   select = which(PPAj/100 > PPAj_cutoff)
+
    PPAj <- paste(as.character(PPAj), "%", sep = "")
    labeltext <- data.frame( Trait = traits, Pvalue = as.character(pvalues), PPAj = PPAj, selection = selection, stringsAsFactors = FALSE )
-   
+
    df_names <- data.frame( Trait = "Trait", Pvalue = "pvalue", PPAj = "PPAj", selection = "association", stringsAsFactors=F)
    labeltext = rbind(df_names,labeltext)
-   
+
    betahat <- c(NA, betahat)
    lowCIbeta <- c(NA, lowCIbeta)
    upCIbeta <- c(NA, upCIbeta)
-   
-   
+
+
    log10BF <- round(summ$log10_BF, digits = 2)
    PPNA <- summ$PPNA
    x <- PPNA
    count <- 0
    while(x < 1){ x <- 10*x; count <- count+1 }
    PPNA <- round(PPNA, digits = count+1)
-   
-   title <- summ$variantName
-   pdffile <- paste(title, ".pdf", sep = "")
-   title <- paste("Pleiotropy at ", title, ": log10BF = ", log10BF, ", PPNA = ", PPNA, sep = "")   ##  "PPNA = ", PPNA,
-   pdf(pdffile)
-   
-   forestplot(labeltext, betahat, lowCIbeta, upCIbeta, zero = 0, lineheight = "auto", boxsize = 0.12, 
-              xlab = "Estimate and CI of log(OR)", col = fpColors(lines="red", box="darkred"),
-              title = title, new_page = FALSE)
-   
-   dev.off()
- }
- 
+
+
+
+   if(length(select) > 0){
+
+     select <- select+1
+     select <- c(1,select)
+     title <- summ$variantName
+     pdffile <- paste(title, ".pdf", sep = "")
+     title <- paste("Pleiotropy at ", title, ": locFDR = ", PPNA, ", log10BF = ", log10BF, sep = "")   ##  "PPNA = ", PPNA,
+     pdf(pdffile)
+
+     forestplot(labeltext[select, ], betahat[select], lowCIbeta[select], upCIbeta[select],
+                zero = 0, lineheight = "auto", boxsize = 0.12, xlab = "Estimate and CI of log(OR)",
+                col = fpColors(lines="red", box="darkred"), title = title, new_page = FALSE)
+     # boxsize = 0.12,
+     dev.off()
+   }else{
+     print("Forest plot not created, because no trait has a PPA_j value above the threshold specified.")
+   }
+
+}
+
  
