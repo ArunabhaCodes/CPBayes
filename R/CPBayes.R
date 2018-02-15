@@ -32,10 +32,7 @@
 #'  the beta-hat vector for multiple overlapping case-control studies using the
 #'  sample-overlap matrices.}
 #' }
-#' @references Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
-#'  An efficient Bayesian meta-analysis 
-#'  approach for studying cross-phenotype genetic associations (submitted),
-#'   available at: http://biorxiv.org/content/early/2017/01/18/101543.
+#' @references Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 #'
 #'
 #' @docType package
