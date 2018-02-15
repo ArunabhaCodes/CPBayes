@@ -126,10 +126,7 @@
 #'       standard error, credible interval (lower and upper limits) of the true odds 
 #'        ratio corresponding to each trait.}
 #'        
-#' @references Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
-#'  An efficient Bayesian meta-analysis 
-#'  approach for studying cross-phenotype genetic associations (submitted), available
-#'  at: http://biorxiv.org/content/early/2017/01/18/101543.
+#' @references Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 #'  
 #' @seealso \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{forest_cpbayes}}, \code{\link{estimate_corln}}
 #' 
@@ -244,9 +241,9 @@
 #'  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.
 #' @param level A numeric value. (1-level)\% confidence interval of the unknown true genetic effect (beta/log(odds ratio))
 #'   on each trait is plotted in the forest plot. Default choice is 0.05.
-#' @param PPAj_cutoff A numeric value. It's a user-specified threshold of PPAj (trait-specific marginal posterior probability
+#' @param PPAj_cutoff A numeric value. It's a user-specified threshold of PPAj (trait-specific posterior probability
 #'   of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of 
-#'   this variable as '0' includes all traits in the forest plot. 
+#'   this variable as '0' includes all traits in the forest plot. Default is 0.2.
 #' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
 #'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
@@ -259,10 +256,7 @@
 #'     its association status is stated as null, positive, and negative, respectively.}
 #'    \item{Column5}{In the right section of the figure, the primary eatimate and confidence interval of the beta/log(odds ratio) parameter for
 #'     each trait is plotted.}
-#' @references Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
-#'  An efficient Bayesian meta-analysis 
-#'  approach for studying cross-phenotype genetic associations (submitted), available
-#'  at: http://biorxiv.org/content/early/2017/01/18/101543.
+#' @references Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 #'  
 #' @seealso \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{post_summaries}}, \code{\link{estimate_corln}}
 #' 
