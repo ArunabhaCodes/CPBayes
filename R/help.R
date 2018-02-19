@@ -115,7 +115,13 @@ print_result <- function(input)
   #BF <- round(BF, digits = 2)
   #BF <- paste("log10_BF", BF, sep = ": ")
   #cat(BF, "\n")
-  locFDR <- paste("locFDR", input$locFDR, sep = " : ")
+
+  x <- input$locFDR
+  count <- 0
+  while(x < 1){ x <- 10*x; count <- count+1 }
+  PPNA <- round(PPNA, digits = count+1)
+
+  locFDR <- paste("locFDR", PPNA, sep = " : ")
   cat(locFDR, "\n")
   cat("subset:", " ")
   if(length(input$subset) != 0)
