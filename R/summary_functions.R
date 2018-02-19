@@ -243,7 +243,7 @@
 #'   on each trait is plotted in the forest plot. Default choice is 0.05.
 #' @param PPAj_cutoff A numeric value. It's a user-specified threshold of PPAj (trait-specific posterior probability
 #'   of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of 
-#'   this variable as '0' includes all traits in the forest plot. Default is 0.05.
+#'   this variable as '0.1' includes all traits having PPAj > 0.1 in the forest plot. Default is 0.0.
 #' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
 #'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
@@ -270,7 +270,7 @@
 #' forest_cpbayes(result, level = 0.05) 
 #' 
 #' @export
-forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.05){
+forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.0){
 
    result <- mcmc_output
    betahat <- result$auxi_data$betahat
@@ -300,8 +300,9 @@ forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.05){
      pvalues[j] <- round(pvalues[j], digits = count)     ## or, digits = count 
    }
 
+   PPAj <- summ$PPAj$PPAj
+   select = which(PPAj > PPAj_cutoff)
    PPAj <- round(100*summ$PPAj$PPAj, digits = 1)
-   select = which(PPAj/100 > PPAj_cutoff)
 
    PPAj <- paste(as.character(PPAj), "%", sep = "")
    labeltext <- data.frame( Trait = traits, Pvalue = as.character(pvalues), PPAj = PPAj, selection = selection, stringsAsFactors = FALSE )
