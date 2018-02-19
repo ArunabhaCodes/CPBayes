@@ -123,7 +123,7 @@
      PPNA.cor <- pleio_evidence$PPNA    
 
      ## return the outputs
-     data = list( variantName = variantName, log10_BF = log10_BF_cor, PPNA = PPNA.cor, subset = selected_traits, 
+     data = list( variantName = variantName, log10_BF = log10_BF_cor, locFDR = PPNA.cor, subset = selected_traits, 
                   important_traits = important_phenos, auxi_data = list( traitNames = traitNames, K = K, 
                   mcmc.samplesize = mcmc.samplesize, PPAj = asso.pr, Z.data = Z.data, sim.beta = sim.beta, betahat = X, se = s.e. ) )
  }
