@@ -115,7 +115,7 @@
      #print(ptm2-ptm1)
 
      ## return the outputs. A post summary from the MCMC data can be computed for interesting variants
-     data = list( variantName = variantName, log10_BF = log10_BF_uncor, PPNA = PPNA.uncor, 
+     data = list( variantName = variantName, log10_BF = log10_BF_uncor, locFDR = PPNA.uncor, 
             subset = selected_traits, important_traits = important_phenos, auxi_data = list( traitNames = traitNames, 
             K = K, mcmc.samplesize = mcmc.samplesize, PPAj = asso.pr, Z.data = Z.data, sim.beta = sim.beta, betahat = X, se = s.e.), runtime = ptm )
 
