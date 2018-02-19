@@ -67,7 +67,7 @@ Now we implement CPBayes for this example data. Since the studies are non-overla
   
 ```{r uncor_example, collapse = TRUE}
 # Run the uncorrelated version of CPBayes.
-result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1)
+result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1, MCMCiter = 10000, Burnin = 2000)
 ```
 
 There are more options of arguments to pass into the function (see the Arguments section of cpbayes\_uncor in the CPBayes manual). After running cpbayes\_uncor, it prints the log10(Bayes factor) (denoted as log10\_BF) and the subset of associated/non-null traits (denoted as subset) produced by CPBayes. The Bayes factor evaluates the overall pleiotropic association and the subset of non-null traits are the most important phenotypes that underlie the pleiotropic signal. However, the printed outputs are only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below). 
@@ -132,7 +132,7 @@ The correlation matrix of the beta-hat vector (cBetaHat) is given by 'cor' which
   
 ```{r cor_example, collapse = TRUE}
 # Run the correlated version of CPBayes.
-result <- cpbayes_cor(cBetaHat, cSE, cor, Phenotypes = traitNames, Variant = SNP1)
+result <- cpbayes_cor(cBetaHat, cSE, cor, Phenotypes = traitNames, Variant = SNP1, MCMCiter = 10000, Burnin = 2000)
 ```
 
 
