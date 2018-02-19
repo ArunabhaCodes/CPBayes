@@ -96,11 +96,11 @@
 #'     specified by the user, default name is `Variant'.} 
 #'    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures
 #'     the evidence of the overall pleiotropic association.}
-#'    \item{PPNA}{It provides the posterior probability of null association produced by
+#'    \item{locFDR}{It provides the posterior probability of null association produced by
 #'     CPBayes (a Bayesian analog of the p-value) which is another measure of the evidence
 #'      of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
- #'      PPNA is solely a function of posterior odds. PPNA can sometimes be significantly small
- #'      indicating an association, but log10_BF may not. Hence, always check both log10_BF and PPNA.}
+ #'      locFDR is solely a function of posterior odds. locFDR can sometimes be significantly small
+ #'      indicating an association, but log10_BF may not. Hence, always check both log10_BF and locFDR.}
 #'    \item{subset}{A data frame providing the optimal subset of associated/non-null traits
 #'     along with their trait-specific posterior probability of association (PPAj) and direction
 #'      of associations. It is NULL if no phenotype is selected by CPBayes.}
@@ -148,7 +148,7 @@
 
      genetic_variant <- mcmc_output$variantName
      log10_BF <- mcmc_output$log10_BF
-     PPNA <- mcmc_output$PPNA
+     PPNA <- mcmc_output$locFDR
      subset <- mcmc_output$subset
      important_phenos <- mcmc_output$important_traits
    
@@ -220,7 +220,7 @@
      poste_summary_OR = data.frame( traits = traitNames, poste_mean = poste_mean_OR, poste_median = poste_median_OR, 
                         lCl = CI_OR_l, uCl = CI_OR_u, stringsAsFactors = FALSE)
     
-     data = list( variantName = genetic_variant, log10_BF = log10_BF, PPNA = PPNA, subset = optimal_subset, 
+     data = list( variantName = genetic_variant, log10_BF = log10_BF, locFDR = PPNA, subset = optimal_subset, 
             important_traits = important_phenos, traitNames = traitNames, PPAj = asso_prob, 
             poste_summary_beta = poste_summary_beta, poste_summary_OR = poste_summary_OR )
  }
@@ -247,7 +247,7 @@
 #' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
 #'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
-#'    \item{Title}{At the top of the figure, variant name and the corresponding log10(Bayes factor) and PPNA produced by CPBayes is stated.}
+#'    \item{Title}{At the top of the figure, variant name and the corresponding log10(Bayes factor) and locFDR produced by CPBayes is stated.}
 #'    \item{Column1}{First column in the figure specifies the name of the phenotypes.}
 #'    \item{Column2}{Second column provides the trait-specific univariate association p-values for each trait.}
 #'    \item{Column3}{Third column provides the trait-specific posterior probability of association (PPAj) produced by CPBayes.}
@@ -315,7 +315,7 @@ forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.2){
 
 
    log10BF <- round(summ$log10_BF, digits = 2)
-   PPNA <- summ$PPNA
+   PPNA <- summ$locFDR
    x <- PPNA
    count <- 0
    while(x < 1){ x <- 10*x; count <- count+1 }
