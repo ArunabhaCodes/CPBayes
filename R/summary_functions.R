@@ -243,7 +243,7 @@
 #'   on each trait is plotted in the forest plot. Default choice is 0.05.
 #' @param PPAj_cutoff A numeric value. It's a user-specified threshold of PPAj (trait-specific posterior probability
 #'   of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of 
-#'   this variable as '0.1' includes all traits having PPAj > 0.1 in the forest plot. Default is 0.0.
+#'   this variable as '0.0' includes all traits in the forest plot. Default is 0.01.
 #' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
 #'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
@@ -270,7 +270,7 @@
 #' forest_cpbayes(result, level = 0.05) 
 #' 
 #' @export
-forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.0){
+forest_cpbayes <- function(mcmc_output, level = 0.05, PPAj_cutoff = 0.01){
 
    result <- mcmc_output
    betahat <- result$auxi_data$betahat
