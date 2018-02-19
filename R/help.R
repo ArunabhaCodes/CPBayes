@@ -116,7 +116,8 @@ print_result <- function(input)
   #BF <- paste("log10_BF", BF, sep = ": ")
   #cat(BF, "\n")
 
-  x <- input$locFDR
+  PPNA <- input$locFDR
+  x <- PPNA
   count <- 0
   while(x < 1){ x <- 10*x; count <- count+1 }
   PPNA <- round(PPNA, digits = count+1)
