@@ -247,7 +247,7 @@
 #' @return The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
 #'    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
-#'    \item{Title}{At the top of the figure, variant name and the corresponding log10(Bayes factor) and locFDR produced by CPBayes is stated.}
+#'    \item{Title}{At the top of the figure, variant name and the corresponding locFDR and log10(Bayes factor) produced by CPBayes is stated.}
 #'    \item{Column1}{First column in the figure specifies the name of the phenotypes.}
 #'    \item{Column2}{Second column provides the trait-specific univariate association p-values for each trait.}
 #'    \item{Column3}{Third column provides the trait-specific posterior probability of association (PPAj) produced by CPBayes.}
