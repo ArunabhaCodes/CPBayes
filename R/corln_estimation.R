@@ -2,7 +2,7 @@
 #' Estimate correlation structure of beta-hat vector for multiple overlapping case-control studies
 #' using sample-overlap matrices.
 #'
-#' It computes an approximate correlation matrix of the estimated  beta (log(odds ratio)) vector for multiple overlapping
+#' It computes an approximate correlation matrix of the estimated  beta (log odds ratio) vector for multiple overlapping
 #' case-control studies using the sample-overlap matrices which describe
 #' the number of cases or controls shared between studies/traits, and the number of subjects
 #' who are case for one study/trait but control for another study/trait. For a cohort study,
