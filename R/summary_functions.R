@@ -105,7 +105,7 @@
 #'     along with their trait-specific posterior probability of association (PPAj) and direction
 #'      of associations. It is NULL if no phenotype is selected by CPBayes.}
 #'    \item{important_traits}{It provides the traits which yield a trait-specific posterior
-#'     probability of association (PPAj) > 25\%. Even if a phenotype is not selected in the
+#'     probability of association (PPAj) > 20\%. Even if a phenotype is not selected in the
 #'    optimal subset of non-null traits, it can produce a non-negligible value of
 #'     trait-specific posterior probability of association. We note that `important_traits'
 #'      is expected to include the traits already contained in `subset'. It provides the
