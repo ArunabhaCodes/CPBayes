@@ -42,7 +42,7 @@
 #'    \item{subset}{It provides the optimal subset of associated/non-null traits selected
 #'     by CPBayes. It is NULL if no phenotype is selected.}
 #'    \item{important_traits}{It provides the traits which yield a trait-specific posterior probability of
-#'     association (PPAj) > 25\%. Even if a phenotype is not selected in the optimal subset of non-null
+#'     association (PPAj) > 20\%. Even if a phenotype is not selected in the optimal subset of non-null
 #'      traits, it can produce a non-negligible value of trait-specific posterior probability of
 #'       association (PPAj). Note that, `important_traits' is expected to include the traits 
 #'       already contained in `subset'. It provides both the name of the important traits and
