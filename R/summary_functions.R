@@ -249,13 +249,13 @@
 #'    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
 #'    \item{Title}{At the top of the figure, variant name and the corresponding locFDR and log10(Bayes factor) produced by CPBayes is stated.}
 #'    \item{Column1}{First column in the figure specifies the name of the phenotypes.}
-#'    \item{Column2}{Second column provides the trait-specific univariate association p-values for each trait.}
+#'    \item{Column2}{Second column provides the trait-specific univariate association p-value for a trait.}
 #'    \item{Column3}{Third column provides the trait-specific posterior probability of association (PPAj) produced by CPBayes.}
 #'    \item{Column4}{Fourth column states whether a phenotype was selected in the optimal subset of associated/non-null traits
 #'    detected by CPBayes. If a phenotype was not selected, selected and positively associated, selected and negatively associated,
-#'     its association status is stated as null, positive, and negative, respectively.}
-#'    \item{Column5}{In the right section of the figure, the primary eatimate and confidence interval of the beta/log(odds ratio) parameter for
-#'     each trait is plotted.}
+#'     its association status is stated as null, positive and negative, respectively.}
+#'    \item{Column5}{In the right section of the figure, the primary eatimate and confidence interval of the beta/log odds ratio parameter for
+#'     a trait is plotted.}
 #' @references Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 #'  
 #' @seealso \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{post_summaries}}, \code{\link{estimate_corln}}
