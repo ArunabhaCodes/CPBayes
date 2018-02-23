@@ -37,7 +37,7 @@ This function returns an approximate correlation matrix of the beta-hat vector f
 multiple overlapping case-control studies. See the example below.
 }
 \description{
-It computes an approximate correlation matrix of the estimated  beta (log(odds ratio)) vector for multiple overlapping
+It computes an approximate correlation matrix of the estimated  beta (log odds ratio) vector for multiple overlapping
 case-control studies using the sample-overlap matrices which describe
 the number of cases or controls shared between studies/traits, and the number of subjects
 who are case for one study/trait but control for another study/trait. For a cohort study,
@@ -84,10 +84,7 @@ cor
 
 }
 \references{
-Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
- An efficient Bayesian meta-analysis 
- approach for studying cross-phenotype genetic associations (submitted), available
- at: http://biorxiv.org/content/early/2017/01/18/101543.
+Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
 \code{\link{cpbayes_cor}}

@@ -96,8 +96,8 @@
 #'     specified by the user, default name is `Variant'.} 
 #'    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures
 #'     the evidence of the overall pleiotropic association.}
-#'    \item{locFDR}{It provides the posterior probability of null association produced by
-#'     CPBayes (a Bayesian analog of the p-value) which is another measure of the evidence
+#'    \item{locFDR}{It provides the local false discovery rate (posterior probability of null association) produced by
+#'     CPBayes (a Bayesian analog of the p-value) which is a measure of the evidence
 #'      of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
  #'      locFDR is solely a function of posterior odds. locFDR can sometimes be significantly small
  #'      indicating an association, but log10_BF may not. Hence, always check both log10_BF and locFDR.}

@@ -4,7 +4,7 @@
 \alias{forest_cpbayes}
 \title{Forest plot presenting pleiotropy result obtained by CPBayes.}
 \usage{
-forest_cpbayes(mcmc_output, level = 0.05)
+forest_cpbayes(mcmc_output, level = 0.05, PPAj_cutoff = 0.01)
 }
 \arguments{
 \item{mcmc_output}{A list returned by either 
@@ -14,20 +14,24 @@ contains all the primary results and MCMC data produced by \code{\link{cpbayes_u
 
 \item{level}{A numeric value. (1-level)\% confidence interval of the unknown true genetic effect (beta/log(odds ratio))
 on each trait is plotted in the forest plot. Default choice is 0.05.}
+
+\item{PPAj_cutoff}{A numeric value. It's a user-specified threshold of PPAj (trait-specific posterior probability
+of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of 
+this variable as '0.0' includes all traits in the forest plot. Default is 0.01.}
 }
 \value{
 The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
    in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
-   \item{Title}{At the top of the figure, variant name and the corresponding log10(Bayes factor) and PPNA produced by CPBayes is stated.}
+   \item{Title}{At the top of the figure, variant name and the corresponding locFDR and log10(Bayes factor) produced by CPBayes is stated.}
    \item{Column1}{First column in the figure specifies the name of the phenotypes.}
-   \item{Column2}{Second column provides the trait-specific univariate association p-values for each trait.}
+   \item{Column2}{Second column provides the trait-specific univariate association p-value for a trait.}
    \item{Column3}{Third column provides the trait-specific posterior probability of association (PPAj) produced by CPBayes.}
    \item{Column4}{Fourth column states whether a phenotype was selected in the optimal subset of associated/non-null traits
    detected by CPBayes. If a phenotype was not selected, selected and positively associated, selected and negatively associated,
-    its association status is stated as null, positive, and negative, respectively.}
-   \item{Column5}{In the right section of the figure, the primary eatimate and confidence interval of the beta/log(odds ratio) parameter for
-    each trait is plotted.}
+    its association status is stated as null, positive and negative, respectively.}
+   \item{Column5}{In the right section of the figure, the primary eatimate and confidence interval of the beta/log odds ratio parameter for
+    a trait is plotted.}
 }
 \description{
 Run the \code{\link{forest_cpbayes}} function to create a forest plot that presents the pleiotropy result obtained
@@ -44,10 +48,7 @@ forest_cpbayes(result, level = 0.05)
 
 }
 \references{
-Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
- An efficient Bayesian meta-analysis 
- approach for studying cross-phenotype genetic associations (submitted), available
- at: http://biorxiv.org/content/early/2017/01/18/101543.
+Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
 \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{post_summaries}}, \code{\link{estimate_corln}}

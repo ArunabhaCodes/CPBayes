@@ -5,7 +5,7 @@
 \title{Run uncorrelated version of CPBayes.}
 \usage{
 cpbayes_uncor(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE,
-  MinSlabVar = 0.8, MaxSlabVar = 1.2, MCMCiter = 20000, Burnin = 10000)
+  MinSlabVar = 0.6, MaxSlabVar = 1, MCMCiter = 20000, Burnin = 5000)
 }
 \arguments{
 \item{BetaHat}{A numeric vector of length K where K is the number of phenotypes. It
@@ -26,22 +26,22 @@ that presents the prior distribution of non-null effects
 is updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE, 
  it is fixed at (MinSlabVar + MaxSlabVar)/2. Default is TRUE.}
 
-\item{MinSlabVar}{A numeric value greater than 0.1 providing the minimum value of
-the variance of the slab distribution. Default is 0.8.}
+\item{MinSlabVar}{A numeric value greater than 0.01 providing the minimum value of
+the variance of the slab distribution. Default is 0.6.}
 
 \item{MaxSlabVar}{A numeric value smaller than 10.0 providing the maximum value of
-the variance of the slab distribution. Default is 1.2. **Note that,
+the variance of the slab distribution. Default is 1.0. **Note that,
 a smaller value of the slab variance will increase the sensitivity of CPBayes while selecting the optimal
  subset of associated traits but at the expense of lower specificity. Hence the slab variance
  parameter in CPBayes is inversely related to the level of false discovery rate (FDR) in a frequentist
  FDR controlling procedure. For a specific dataset, an user
   can experiment different choices of these three arguments: UpdateSlabVar, MinSlabVar, and MaxSlabVar.}
 
-\item{MCMCiter}{A positive integer greater than or equal to 10,000 providing the total number of
+\item{MCMCiter}{A positive integer greater than or equal to 7,000 providing the total number of
 iterations in the MCMC. Default is 20,000.}
 
-\item{Burnin}{A positive integer greater than or equal to 5,000 providing the burn in period 
-in the MCMC. Default is 10,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.}
+\item{Burnin}{A positive integer greater than or equal to 2,000 providing the burn in period 
+in the MCMC. Default is 5,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.}
 }
 \value{
 The output produced by the function is a list which consists of various components. 
@@ -49,15 +49,15 @@ The output produced by the function is a list which consists of various componen
     specified by the user, default name is `Variant'.} 
    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures the
     evidence of the overall pleiotropic association.}
-   \item{PPNA}{It provides the posterior probability of null association produced by CPBayes
-    (a Bayesian analog of the p-value) which is another measure of the evidence of the 
+   \item{locFDR}{It provides the local false discovery rate (posterior probability of null association) produced by CPBayes
+    (a Bayesian analog of the p-value) which is a measure of the evidence of the 
     aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
-     PPNA is solely a function of the posterior odds. PPNA can sometimes be small
-     indicating an association, but log10_BF may not indicate an association. Hence, always check both log10_BF and PPNA.}
+     locFDR is solely a function of the posterior odds. locFDR can sometimes be small
+     indicating an association, but log10_BF may not indicate an association. Hence, always check both log10_BF and locFDR.}
    \item{subset}{It provides the optimal subset of associated/non-null traits selected
     by CPBayes. It is NULL if no phenotype is selected.}
    \item{important_traits}{It provides the traits which yield a trait-specific posterior probability of
-    association (PPAj) > 25\%. Even if a phenotype is not selected in the optimal subset of non-null
+    association (PPAj) > 20\%. Even if a phenotype is not selected in the optimal subset of non-null
      traits, it can produce a non-negligible value of trait-specific posterior probability of
       association (PPAj). Note that, `important_traits' is expected to include the traits 
       already contained in `subset'. It provides both the name of the important traits and
@@ -96,10 +96,7 @@ str(result)
 
 }
 \references{
-Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
- An efficient Bayesian meta-analysis 
- approach for studying cross-phenotype genetic associations (submitted), available
- at: http://biorxiv.org/content/early/2017/01/18/101543.
+Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
 \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{cpbayes_cor}}, \code{\link{estimate_corln}}

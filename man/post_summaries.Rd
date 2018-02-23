@@ -22,16 +22,16 @@ The output produced by this function is a list that consists of various componen
     specified by the user, default name is `Variant'.} 
    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures
     the evidence of the overall pleiotropic association.}
-   \item{PPNA}{It provides the posterior probability of null association produced by
-    CPBayes (a Bayesian analog of the p-value) which is another measure of the evidence
+   \item{locFDR}{It provides the local false discovery rate (posterior probability of null association) produced by
+    CPBayes (a Bayesian analog of the p-value) which is a measure of the evidence
      of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
-     PPNA is solely a function of posterior odds. PPNA can sometimes be significantly small
-     indicating an association, but log10_BF may not. Hence, always check both log10_BF and PPNA.}
+     locFDR is solely a function of posterior odds. locFDR can sometimes be significantly small
+     indicating an association, but log10_BF may not. Hence, always check both log10_BF and locFDR.}
    \item{subset}{A data frame providing the optimal subset of associated/non-null traits
     along with their trait-specific posterior probability of association (PPAj) and direction
      of associations. It is NULL if no phenotype is selected by CPBayes.}
    \item{important_traits}{It provides the traits which yield a trait-specific posterior
-    probability of association (PPAj) > 25\%. Even if a phenotype is not selected in the
+    probability of association (PPAj) > 20\%. Even if a phenotype is not selected in the
    optimal subset of non-null traits, it can produce a non-negligible value of
     trait-specific posterior probability of association. We note that `important_traits'
      is expected to include the traits already contained in `subset'. It provides the
@@ -71,10 +71,7 @@ str(PleioSumm)
 
 }
 \references{
-Arunabha Majumdar, Tanushree Haldar, Sourabh Bhattacharya, John Witte.
- An efficient Bayesian meta-analysis 
- approach for studying cross-phenotype genetic associations (submitted), available
- at: http://biorxiv.org/content/early/2017/01/18/101543.
+Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
 \code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{forest_cpbayes}}, \code{\link{estimate_corln}}

@@ -77,7 +77,7 @@ There are more options of arguments to pass into the function (see the Arguments
 str(result)
 ```
 
-result\$variantName returns the name of the genetic variant specified by the user. Here, it is 'rs1234'. result\$log10\_BF provides the log10(Bayes factor). result\$locFDR provides the posterior probability of null association which is another measure of the aggregate-level pleiotropic association. result\$subset provides the optimal subset of associated/non-null traits selected by CPBayes. Thus, for the example data, CPBayes produced a log10(Bayes factor) of 8.63, locFDR of 6.88*10^(-11), and selected Disease7, Disease9, and Disease10 as associated/non-null. A detailed interpretation of all the outputs are described in the Value section of cpbayes\_uncor in the CPBayes manual. 
+result\$variantName returns the name of the genetic variant specified by the user. Here, it is 'rs1234'. result\$log10\_BF provides the log10(Bayes factor) and result\$locFDR provides the local false discovery rate (posterior probability of null association) evaluating the aggregate-level pleiotropic association. result\$subset provides the optimal subset of associated/non-null traits selected by CPBayes. Thus, for the example data, CPBayes produced a log10(Bayes factor) of 8.63, locFDR of 6.88*10^(-11), and selected Disease7, Disease9, and Disease10 as associated/non-null. A detailed interpretation of all the outputs are described in the Value section of cpbayes\_uncor in the CPBayes manual. 
 
 The post\_summaries function provides important insights into an obseved pleiotropic signal, e.g., the direction of associations, trait-specific posterior probability of associations (PPAj), posterior mean/median and 95\% credible interval (Bayesian analog of the confidence interval) of the unknown true genetic effect (beta/odds ratio) on each trait, etc.
 
@@ -109,7 +109,7 @@ load(datafile)
 cBetaHat
 ```
 
-Here 'c' in cBetaHat stands for correlated case. cBetaHat contains an example data of the main genetic association parameter (beta/log(odds ratio)) estimates for a SNP across 10 overlapping case-control studies for 10 different diseases. Each of the 10 studies has a distinct set of 7000 cases and a common set of 10000 controls shared across all the studies. In each case-control study, we fit a logistic regression of the case-control status on the genotype coded as the minor allele count for all the individuals in the sample. One can also include various covariates, such as, age, gender, principal components (PCs) of ancestries in the logistic regression. From each logistic regression for a disease, we obtain the estimate of the main genetic effect (beta/log odds ratio) along with the corresponding standard error. Since the studies have overlapping subjects, beta-hat across the diseases are correlated.  
+Here 'c' in cBetaHat stands for correlated case. cBetaHat contains an example data of the main genetic association parameter (beta/log odds ratio) estimates for a SNP across 10 overlapping case-control studies for 10 different diseases. Each of the 10 studies has a distinct set of 7000 cases and a common set of 10000 controls shared across all the studies. In each case-control study, we fit a logistic regression of the case-control status on the genotype coded as the minor allele count for all the individuals in the sample. One can also include various covariates, such as, age, gender, principal components (PCs) of ancestries in the logistic regression. From each logistic regression for a disease, we obtain the estimate of the main genetic effect (beta/log odds ratio) along with the corresponding standard error. Since the studies have overlapping subjects, beta-hat across the diseases are correlated.  
 
 ```{r load_cSE, collapse = TRUE}
 # Load the standard error vector
@@ -145,7 +145,7 @@ str(result)
 ```
 
 
-result\$variantName returns the name of the genetic variant specified by the user. Here, it is 'rs1234'. result\$log10\_BF provides the log10(Bayes factor). result\$locFDR provides the posterior probability of null association which is another measure of the aggregate-level pleiotropic association. result\$subset provides the optimal subset of associated traits selected by CPBayes. A detailed interpretation of all the outputs are described in the Value section of cpbayes\_cor in the CPBayes manual. 
+result\$variantName returns the name of the genetic variant specified by the user. Here, it is 'rs1234'. result\$log10\_BF provides the log10(Bayes factor) and result\$locFDR provides the local false discovery rate (posterior probability of null association) measuring the evidence of aggregate-level pleiotropic association. result\$subset provides the optimal subset of associated traits selected by CPBayes. A detailed interpretation of all the outputs are described in the Value section of cpbayes\_cor in the CPBayes manual. 
 
 The post\_summaries function provides important insights into an observed pleiotropic signal, e.g., the direction of associations, trait-specific posterior probability of associations (PPAj), posterior mean/median and 95\% credible interval (Bayesian analog of the confidence interval) of the unknown true genetic effect (beta/odds ratio) on each trait, etc.
 
