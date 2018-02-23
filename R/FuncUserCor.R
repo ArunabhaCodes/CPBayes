@@ -28,7 +28,7 @@
 #'   parameter in CPBayes is inversely related to the level of false discovery rate (FDR) in a frequentist
 #'   FDR controlling procedure. For a specific dataset, an user
 #'    can experiment different choices of these three arguments: UpdateSlabVar, MinSlabVar, and MaxSlabVar.
-#' @param MCMCiter A positive integer greater than or equal to 10,000 providing the total number of
+#' @param MCMCiter A positive integer greater than or equal to 7,000 providing the total number of
 #'  iterations in the MCMC. Default is 20,000.
 #' @param Burnin A positive integer greater than or equal to 2,000 providing the burn in period 
 #' in the MCMC. Default is 5,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.
@@ -202,9 +202,9 @@ cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar =
       MCMCiter <- mcmcDefault
     }
     # Check whether argument 9 is more than 10000
-    if(MCMCiter < 10000)
+    if(MCMCiter < 7000)
     {
-      warning("MCMCiter should be at least 10000 (default option used).", call. = FALSE)
+      warning("MCMCiter should be at least 7000 (default option used).", call. = FALSE)
       MCMCiter <- mcmcDefault
     }
     
