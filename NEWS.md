@@ -1,3 +1,16 @@
+# CPBayes 0.3.0
+Third version of CPBayes R-package
+
+## New features
+
+An empirical Bayes approach to choose the hyper-parameters in the prior distribution of proportion of non-null traits is included in the Bayesian statistical framework underlying the meta-analysis method.
+
+## Bug fixes and minor improvements
+
+An additional argument is included in the forest_cpbayes() function that allows to plot a subset of selected traits having the trait-specific posterior probability of association above a specified threshold.  
+
+Instead of the Bayes factor, the cpbayes_uncor() and cpbayes_cor() functions now print the local false discovery rate (locFDR) as the primary measure of overall pleiotropic association.
+
 # CPBayes 0.2.0
 Second version of CPBayes R-package
 
