@@ -2,7 +2,7 @@
 This is a resubmission. In this version:
 
 ## Test environments
-* local OS X Sierra, R 3.3.3
+* local OS X Sierra, R 3.3.3, R 3.4.3
 * x86_64-pc-linux-gnu (on travis-ci), R 3.4.2
 * win-builder (development (2018-02-21) and release (3.4.3))
 
