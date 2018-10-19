@@ -15,12 +15,18 @@
 #'
 #' @section Functions:
 #' \describe{
+#' \item{\code{\link{analytic_locFDR_BF_uncor}}}{It analytically computes the local FDR (locFDR) 
+#'  and Bayes factor (BF) quantifying the evidence of aggregate-level pleiotropic association
+#'   for uncorrelated summary statistics.}
+#' \item{\code{\link{analytic_locFDR_BF_cor}}}{It analytically computes the local FDR (locFDR) 
+#'  and Bayes factor (BF) for correlated summary statistics.}
 #' \item{\code{\link{cpbayes_uncor}}}{It implements CPBayes for uncorrelated
-#'  summary statistics. The summary statistics across traits/studies are uncorrelated when
-#'   the studies have no overlapping subject.}
+#'  summary statistics. This function estimates locFDR & BF based on MCMC sample. The summary statistics across
+#' traits/studies are uncorrelated when the studies have no overlapping subject.}
 #' \item{\code{\link{cpbayes_cor}}}{It implements CPBayes for correlated summary
-#'  statistics. The summary statistics across traits/studies are correlated when the studies
-#'   have overlapping subjects or the phenotypes were measured in a cohort study.}
+#'  statistics. This function estimates locFDR & BF based on MCMC sample. The summary statistics across
+#' traits/studies are correlated when the studies have overlapping/genetically related subjects
+#' or the phenotypes were measured in a cohort study.}
 #' \item{\code{\link{post_summaries}}}{It summarizes the MCMC data produced by
 #'  \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}.
 #'   It computes additional summaries to provide a better insight into a pleiotropic signal.
