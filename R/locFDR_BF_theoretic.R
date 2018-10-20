@@ -50,67 +50,10 @@ logexponent = function(x, s, v){
 }
 
 
-## code for computing the locFDR (Bayes factor) analytically for uncorrelated summary statistics
-
-
- analytic_locFDR_uncor = function(X, s.e., spikevar = 0.0001, slabvar = 0.8){
-
-   K = length(X)
-
-   shapes = choose_shape_parameters(K, X, s.e.)                    ## get the shape params
-   shape1 = shapes$shape1; shape2 = shapes$shape2;
-
-   p1 = shape1/(shape1+shape2) 
-   p0 = 1-p1                                                  ## P(z=0)
-   logp0 = log(p0)
-   logp1 = log(p1)
-
-   tau <- sqrt(spikevar)
-   de <- sqrt(spikevar/slabvar)                              ## 1/de = ratio of slab sd and spike sd
-
-   ## compute the log numerator and denominator
-   sum0 = K*logp0
-   sum1 = 0
-
-   for(j in 1:K){
-
-     b = logexponent(x = X[j], s = s.e.[j], v = tau)
-     sum0 = sum0 + b
-
-     c0 = b
-     c1 = logexponent(x = X[j], s = s.e.[j], v = (tau/de))
-     a0 = exp(logp0+c0)
-     a1 = exp(logp1+c1)
-     sum1 = sum1+log(a0+a1)
-   }
-
-   log_nume = sum0
-   log_deno = sum1
-   locFDR = exp(log_nume - log_deno)
-
-   prior_prob_null = exp(K*logp0);
-   logBF = log(1-locFDR) - log(locFDR) + log(prior_prob_null) - log(1-prior_prob_null)
-   log10_BF = log10(exp(logBF))
-
-   if(log10_BF == Inf) log10_BF <- 300
-
-   pleio_measure = list(locFDR = locFDR, log10_BF = log10_BF)
-   pleio_measure
-
- }
-
-
-
-
-
-
-
 ################################## Most recent code for computing locFDR theoretically ##########################
 
 
-
-
-locFDR_uncor_analytic = function(X, s.e., spikevar=0.0001, slabvar=0.8){
+analytic_locFDR_BF_uncor = function(X, s.e., spikevar=0.0001, slabvar=0.8){
 
   K = length(X)    ## number of traits
   shapes = choose_shape_parameters(K, X, s.e.)                    ## get the shape params
@@ -183,7 +126,7 @@ non_null_density_computation = function(c, K, spikevar, slabvar, zeromean, X, S)
 
 ########### Main function to compute the local FDR and the Bayes factor
 
-locFDR_cor_analytic_full = function(X, s.e., corln, spikevar=0.0001, slabvar=0.8){
+analytic_locFDR_BF_cor = function(X, s.e., corln, spikevar=0.0001, slabvar=0.8){
 
 
   K = length(X)    ## number of traits
