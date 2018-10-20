@@ -16,6 +16,8 @@ Simultaneous analysis of genetic associations with multiple phenotypes may revea
 
 This R-package consists of five main functions: 
 
+1. analytic_locFDR_BF_uncor: It analytically computes the local FDR (locFDR) and Bayes factor (BF) quantifying the evidence of aggregate-level pleiotropic association for uncorrelated summary statistics.
+1. analytic_locFDR_BF_cor: It analytically computes the local FDR (locFDR) and Bayes factor (BF) for correlated summary statistics. 
 1. cpbayes_uncor: It implements CPBayes for uncorrelated summary statistics. The summary statistics across traits/studies are uncorrelated when the studies have no overlapping subject. 
 1. cpbayes_cor: It implements CPBayes for correlated summary statistics. The summary statistics across traits/studies are correlated when the studies have overlapping subjects or the phenotypes were measured in a cohort study. 
 1. post\_summaries: It summarizes the MCMC data produced by cpbayes\_uncor or cpbayes\_cor. It computes additional summaries to provide a better insight into a pleiotropic signal. It works in the same way for both cpbayes\_uncor and cpbayes\_cor.
