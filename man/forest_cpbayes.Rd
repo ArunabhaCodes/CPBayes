@@ -7,8 +7,8 @@
 forest_cpbayes(mcmc_output, level = 0.05, PPAj_cutoff = 0.01)
 }
 \arguments{
-\item{mcmc_output}{A list returned by either 
- \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list 
+\item{mcmc_output}{A list returned by either
+ \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list
 contains all the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.}
 
@@ -16,14 +16,13 @@ contains all the primary results and MCMC data produced by \code{\link{cpbayes_u
 on each trait is plotted in the forest plot. Default choice is 0.05.}
 
 \item{PPAj_cutoff}{A numeric value. It's a user-specified threshold of PPAj (trait-specific posterior probability
-of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of 
+of association). Only those traits having PPAj values above this cut-off are included in the forest plot. So, the choice of
 this variable as '0.0' includes all traits in the forest plot. Default is 0.01.}
 }
 \value{
-The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows: 
+The output produced by this function is a diagram file in .pdf format. The details of the diagram are as follows:
    \item{file_name}{The pdf file is named after the genetic variant. So, if the argument `Variant'
-   in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.} 
-   \item{Title}{At the top of the figure, variant name and the corresponding locFDR and log10(Bayes factor) produced by CPBayes is stated.}
+   in \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}} is specified as 'rs1234', the figure file is named as rs1234.pdf.}
    \item{Column1}{First column in the figure specifies the name of the phenotypes.}
    \item{Column2}{Second column provides the trait-specific univariate association p-value for a trait.}
    \item{Column3}{Third column provides the trait-specific posterior probability of association (PPAj) produced by CPBayes.}
@@ -44,12 +43,12 @@ SE <- ExampleDataUncor$SE
 traitNames <- paste("Disease", 1:10, sep = "")
 SNP1 <- "rs1234"
 result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1)
-forest_cpbayes(result, level = 0.05) 
+forest_cpbayes(result, level = 0.05)
 
 }
 \references{
 Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
-\code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{post_summaries}}, \code{\link{estimate_corln}}
+\code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}
 }

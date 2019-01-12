@@ -1,6 +1,6 @@
 ## Function to call CPBayes_cor (CPBayes function for correlated summary statistics)
 #' Run correlated version of CPBayes.
-#' 
+#'
 #' Run correlated version of CPBayes when the main genetic effect (beta/log(odds ratio)) estimates across
 #'  studies/traits are correlated.
 #' @param BetaHat A numeric vector of length K where K is the number of phenotypes. It
@@ -17,7 +17,7 @@
 #'  Default is `Variant'.
 #' @param UpdateSlabVar A logical vector of length one. If TRUE, the variance of the slab distribution
 #'  that presents the prior distribution of non-null effects is
-#'  updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE, 
+#'  updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE,
 #'   it is fixed at (MinSlabVar + MaxSlabVar)/2. Default is TRUE.
 #' @param MinSlabVar A numeric value greater than 0.01 providing the minimum value of the
 #'  variance of the slab distribution. Default is 0.6.
@@ -30,34 +30,34 @@
 #'    can experiment different choices of these three arguments: UpdateSlabVar, MinSlabVar, and MaxSlabVar.
 #' @param MCMCiter A positive integer greater than or equal to 7,000 providing the total number of
 #'  iterations in the MCMC. Default is 20,000.
-#' @param Burnin A positive integer greater than or equal to 2,000 providing the burn in period 
+#' @param Burnin A positive integer greater than or equal to 2,000 providing the burn in period
 #' in the MCMC. Default is 5,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.
 #' @return The output produced by \code{\link{cpbayes_cor}} is a list which consists of various components.
-#'    \item{variantName}{It is the name of the genetic variant provided by the user. If 
-#'    not specified by the user, default name is `Variant'.} 
+#'    \item{variantName}{It is the name of the genetic variant provided by the user. If
+#'    not specified by the user, default name is `Variant'.}
 #'    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures the
 #'     evidence of the overall pleiotropic association.}
 #'    \item{locFDR}{It provides the local false discovery rate (posterior probability of null association) produced by
-#'     CPBayes (a Bayesian analog of the p-value) which is a measure of the evidence
+#'     CPBayes which is a measure of the evidence
 #'      of aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
 #'      locFDR is solely a function of the posterior odds. locFDR can sometimes be small
 #'      indicating an association, but log10_BF may not indicate an association. Hence, always check both log10_BF and locFDR.}
 #'    \item{subset}{It provides the optimal subset of associated/non-null traits selected by
 #'     CPBayes. It is NULL if no phenotype is selected.}
-#'    \item{important_traits}{It provides the traits which yield a trait-specific posterior 
-#'    probability of association (PPAj) > 20\%. Even if a phenotype is not 
+#'    \item{important_traits}{It provides the traits which yield a trait-specific posterior
+#'    probability of association (PPAj) > 20\%. Even if a phenotype is not
 #'    selected in the optimal subset of non-null traits, it can produce a non-negligible
 #'     value of PPAj. Note that, `important_traits' is expected to include the traits already
 #'      contained in `subset'. It provides both the name of the important traits and their
 #'       corresponding value of PPAj. Always check 'important_traits' even if 'subset' contains
 #'        a single trait. It helps to better explain an observed pleiotropic signal.}
-#'    \item{auxi_data}{It contains supplementary data including the MCMC data which is used later 
+#'    \item{auxi_data}{It contains supplementary data including the MCMC data which is used later
 #'     by \code{\link{post_summaries}} and \code{\link{forest_cpbayes}}:
 #'        \enumerate{
 #'            \item traitNames: Name of all the phenotypes.
 #'            \item K: Total number of phenotypes.
 #'            \item mcmc.samplesize: MCMC sample size.
-#'            \item PPAj: Trait-specific posterior probability of association for all the traits. 
+#'            \item PPAj: Trait-specific posterior probability of association for all the traits.
 #'            \item Z.data: MCMC data on the latent association status of all the traits (Z).
 #'            \item sim.beta: MCMC data on the unknown true genetic effect (beta) on each trait.
 #'            \item betahat: The beta-hat vector provided by the user which will be used by \code{\link{forest_cpbayes}}.
@@ -68,11 +68,11 @@
 #'     summary statistics) used the uncorrelated version or not.}
 #'    \item{runtime}{It provides the runtime (in seconds) taken by \code{\link{cpbayes_cor}}. It will help the user to
 #'     plan the whole analysis.}
-#'    
+#'
 #' @references Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
-#'    
-#' @seealso  \code{\link{estimate_corln}}, \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{cpbayes_uncor}}
-#' 
+#'
+#' @seealso \code{\link{analytic_locFDR_BF_cor}}, \code{\link{estimate_corln}}, \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{analytic_locFDR_BF_uncor}}, \code{\link{cpbayes_uncor}}
+#'
 #' @examples
 #' data(ExampleDataCor)
 #' BetaHat <- ExampleDataCor$BetaHat
@@ -85,12 +85,11 @@
 #' SNP1 <- "rs1234"
 #' result <- cpbayes_cor(BetaHat, SE, cor, Phenotypes = traitNames, Variant = SNP1)
 #' str(result)
-#' 
-#' 
+#'
 #' @export
 cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar = TRUE, MinSlabVar = 0.6, MaxSlabVar = 1.0, MCMCiter = 20000, Burnin = 5000)
 {
-  
+
   UpdateDE <- UpdateSlabVar
   # Check whether any of the primary arguments is missing
   if(missing(BetaHat) || missing (SE))
@@ -107,15 +106,15 @@ cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar =
   # Argument 1 and 2 ::
   if(length(BetaHat) != length(SE))
     stop("BetaHat and SE vectors must have the same number of elements!", call. = FALSE)
-  
+
   # Argument 3 :: Correlation
     COR <- checkCorln(Corln, BetaHat)
-  
+
   # Argument 4 :: Phenotype names
   if(!missing(Phenotypes))
     checkPhen(Phenotypes, BetaHat)
   else Phenotypes = paste("trait", 1:length(BetaHat), sep = "")
-  
+
   # Argument 5 :: Variant name
   if(!missing(Variant))
   {
@@ -123,12 +122,12 @@ cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar =
     variantName <- unname(Variant)           # Assignment
   }
   else variantName <- "Variant"
-  
+
     # Argument 6 :: Update model parameter DE
     # Check whether argument 6 is a vector of length 1
     if(!is.vector(UpdateDE) || (length(UpdateDE) != 1))
     {
-      warning("UpdateSlabVar is not a vector of length 1 (default option used).", call. = FALSE)
+      warning("UpdateSlabVar is not a scalar (default option used).", call. = FALSE)
       UpdateDE <- TRUE
     }
     if(!is.logical(UpdateDE))
@@ -138,105 +137,17 @@ cpbayes_cor <- function(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar =
     }
 
     # Argument 7 & 8:: Minimum and maximum value of slab variance
-    MinSlabVarDefault <- 0.6
-    MaxSlabVarDefault <- 1.0
-    MinSlabVarBound <- 0.01
-    MaxSlabVarBound <- 10.0
-    
-    # Check whether argument 7 is a vector of length 1
-    if(!is.vector(MinSlabVar) || (length(MinSlabVar) != 1))
-    {
-      warning("MinSlabVar is not a vector of length 1 (default option used).", call. = FALSE)
-      MinSlabVar <- MinSlabVarDefault
-    }
-    # Check whether argument 7 is numeric
-    if(!is.numeric(MinSlabVar)){
-      warning("MinSlabVar is not numeric (default option used).", call. = FALSE)
-      MinSlabVar <- MinSlabVarDefault
-    }
-    # Check whether argument 7 is more than its minimum bound
-    if(MinSlabVar < MinSlabVarBound){
-      warning("MinSlabVar should not be smaller than ", MinSlabVarBound, ", so it is assigned to ", MinSlabVarBound, ".", call. = FALSE)
-      MinSlabVar <- MinSlabVarBound
-    }
-    
-    # Argument 8 :: Maximum value of slab variance    
-    
-    # Check whether argument 8 is a vector of length 1
-    if(!is.vector(MaxSlabVar) || (length(MaxSlabVar) != 1))
-    {
-      warning("MaxSlabVar is not a vector of length 1 (default option used).", call. = FALSE)
-      MaxSlabVar <- MaxSlabVarDefault
-    }
-    # Check whether argument 8 is numeric
-    if(!is.numeric(MaxSlabVar)){
-      warning("MaxSlabVar is not numeric (default option used).", call. = FALSE)
-      MaxSlabVar <- MaxSlabVarDefault
-    }
-    # Check whether argument 8 is less than a maximum bound
-    if(MaxSlabVar > MaxSlabVarBound){
-      warning("MaxSlabVar should not be bigger than ", MaxSlabVarBound, ", so it is assigned to ", MaxSlabVarBound, ".", call. = FALSE)
-      MaxSlabVar <- MaxSlabVarBound
-    }
-    
-    # Argument 7 and 8 :: Checking MinSlabVar < MaxSlabVar
-    if(MinSlabVar >= MaxSlabVar){
-      warning("MaxSlabVar is not bigger than MinSlabVar! (default option used).", call. = FALSE)
-      MinSlabVar <- MinSlabVarDefault
-      MaxSlabVar <- MaxSlabVarDefault
-    }
-    
+    # Argument 6 & 7:: Minimum and maximum value of slab variance
+    SlabVarList <- chkSlabVar(MinSlabVar, MaxSlabVar)
+    MinSlabVar <- SlabVarList[["MinSlabVar"]]
+    MaxSlabVar <- SlabVarList[["MaxSlabVar"]]
+
 
     # Argument 9 :: Number of MCMC iteration
-    mcmcDefault <- 20000
-    # Check whether argument 9 is a vector of length 1
-    if(!is.vector(MCMCiter) || (length(MCMCiter) != 1))
-    {
-      warning("MCMCiter is not a vector of length 1 (default option used).", call. = FALSE)
-      MCMCiter <- mcmcDefault
-    }
-    # Check whether argument 9 is numeric and integer
-    if(!is.numeric(MCMCiter) || MCMCiter%%1 != 0)
-    {
-      warning("MCMCiter not provided as integer (default option used).", call. = FALSE)
-      MCMCiter <- mcmcDefault
-    }
-    # Check whether argument 9 is more than 10000
-    if(MCMCiter < 7000)
-    {
-      warning("MCMCiter should be at least 7000 (default option used).", call. = FALSE)
-      MCMCiter <- mcmcDefault
-    }
-    
-    # Argument 10 :: Burnin
-    BurninDefault <- 5000
-    # Check whether argument 10 is a vector of length 1
-    if(!is.vector(Burnin) || (length(Burnin) != 1))
-    {
-      warning("Burnin is not a vector of length 1 (default option used).", call. = FALSE)
-      Burnin <- BurninDefault
-    }
-    # Check whether argument 10 is numeric and integer
-    if(!is.numeric(Burnin) || Burnin%%1 != 0)
-    {
-      warning("Burnin not provided as integer (default option used).", call. = FALSE)
-      Burnin <- BurninDefault
-    }
-    # Check whether argument 10 is more than 2000
-    if(Burnin < 2000)
-    {
-      warning("Burnin should be at least 2000 (default option used).", call. = FALSE)
-      Burnin <- BurninDefault
-    }
-    
-    # Argument 9 and 10
-    if((MCMCiter - Burnin) < 5000)
-    {
-      warning("MCMC sample size (MCMCiter - Burnin) provided less than 5000 (default options used)", call. = FALSE)
-      MCMCiter <- mcmcDefault
-      Burnin <- BurninDefault
-    }
-    
+    mcmcParam <- chkMCMCparam(MCMCiter, Burnin)
+    MCMCiter <- mcmcParam[["MCMCiter"]]
+    Burnin <- mcmcParam[["Burnin"]]
+
     # Call CPBayes function
     RESULT <- combined_CPBayes( variantName, Phenotypes, BetaHat, SE, COR, UpdateDE, MinSlabVar, MaxSlabVar, MCMCiter, Burnin )
     print_result(RESULT)

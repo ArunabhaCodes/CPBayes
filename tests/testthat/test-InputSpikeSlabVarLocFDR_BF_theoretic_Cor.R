@@ -1,0 +1,25 @@
+context("Input SlabVar and SpikeVar of locFDR BF theoretic function cor")
+
+test_that("Throws warning if SpikeVar parameter is not a numeric scalar", {
+  skip_on_cran()
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = NA), "SpikeVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, NA), "SpikeVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = "A"), "SpikeVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, "A"), "SpikeVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = 1:2), "SpikeVar is not a scalar*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, 1:2), "SpikeVar is not a scalar*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = -1), "SpikeVar is not positive*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, 0), "SpikeVar is not positive*")
+})
+
+test_that("Throws warning if SpikeVar parameter is not a numeric scalar", {
+  skip_on_cran()
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SlabVar = NA), "SlabVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = 0.01, NA), "SlabVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SlabVar = "A"), "SlabVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = 0.01, "A"), "SlabVar is not numeric*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SlabVar = 1:2), "SlabVar is not a scalar*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = 0.01, 1:2), "SlabVar is not a scalar*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SlabVar = -1), "SlabVar is not positive*")
+  expect_warning(analytic_locFDR_BF_cor(1:10, 1:10, ExampleDataCor$cor, SpikeVar = 0.01, 0), "SlabVar is not positive*")
+})

@@ -3,15 +3,17 @@
 Overview
 ========
 
-Simultaneous analysis of genetic associations with multiple phenotypes may reveal shared genetic susceptibility across traits (pleiotropy). CPBayes is a Bayesian meta analysis method for studying cross-phenotype genetic associations. It uses summary-level data across multiple phenotypes to simultaneously measure the evidence of aggregate-level pleiotropic association and estimate an optimal subset of traits associated with the risk locus. CPBayes is based on a spike and slab prior and is implemented by Markov chain Monte Carlo (MCMC) technique Gibbs sampling.
+Simultaneous analysis of genetic associations with multiple phenotypes may reveal shared genetic susceptibility across traits (pleiotropy). CPBayes is a Bayesian meta analysis method for studying cross-phenotype genetic associations. It uses summary-level data across multiple phenotypes to simultaneously measure the evidence of aggregate-level pleiotropic association and estimate an optimal subset of traits associated with the risk locus. CPBayes model is based on a spike and slab prior.
 
-This R-package consists of five main functions:
+This R-package consists of following functions:
 
-1.  cpbayes\_uncor: It implements CPBayes for uncorrelated summary statistics. The summary statistics across traits/studies are uncorrelated when the studies have no overlapping subject.
-2.  cpbayes\_cor: It implements CPBayes for correlated summary statistics. The summary statistics across traits/studies are correlated when the studies have overlapping subjects or the phenotypes were measured in a cohort study.
-3.  post\_summaries: It summarizes the MCMC data produced by cpbayes\_uncor or cpbayes\_cor. It computes additional summaries to provide a better insight into a pleiotropic signal. It works in the same way for both cpbayes\_uncor and cpbayes\_cor.
-4.  forest\_cpbayes: It creates a forest plot presenting the pleiotropy result obtained by cpbayes\_uncor or cpbayes\_cor. It works in the same way for both cpbayes\_uncor and cpbayes\_cor.
-5.  estimate\_corln: It computes an approximate correlation matrix of the beta-hat vector for multiple overlapping case-control studies using the sample-overlap matrices.
+1.  analytic\_locFDR\_BF\_uncor: This function analytically computes the local FDR & Bayes factor (BF) that quantifies the evidence of aggregate-level pleiotropic association for uncorrelated summary statistics.
+2.  cpbayes\_uncor: It implements CPBayes for uncorrelated summary statistics to figure out the optimal subset of non-null traits underlying a pleiotropic signal and other insights. The summary statistics across traits/studies are uncorrelated when the studies have no overlapping and genetically related subjects.
+3.  analytic\_locFDR\_BF\_cor: This function analytically computes the local FDR & Bayes factor (BF) that quantifies the evidence of aggregate-level pleiotropic association for correlated summary statistics.
+4.  cpbayes\_cor: It implements CPBayes for correlated summary statistics to figure out the optimal subset of non-null traits underlying a pleiotropic signal and other insights. The summary statistics across traits/studies are correlated when the studies have overlapping/genetically related subjects or the phenotypes were measured in a cohort study.
+5.  post\_summaries: It summarizes the MCMC data produced by cpbayes\_uncor or cpbayes\_cor. It computes additional summaries to provide a better insight into a pleiotropic signal. It works in the same way for both cpbayes\_uncor and cpbayes\_cor.
+6.  forest\_cpbayes: It creates a forest plot presenting the pleiotropy result obtained by cpbayes\_uncor or cpbayes\_cor. It works in the same way for both cpbayes\_uncor and cpbayes\_cor.
+7.  estimate\_corln: It computes an approximate correlation matrix of the beta-hat vector for multiple overlapping case-control studies using the sample-overlap count matrices.
 
 Installation
 ============
@@ -57,14 +59,24 @@ traitNames
 SNP1
 ```
 
-Now we implement CPBayes for this example data. Since the studies are non-overlapping, we run the the cpbayes\_uncor function.
+Now, since the studies are non-overlapping, the summary statistics across traits are uncorrelated. Here we run the analytic\_locFDR\_BF\_uncor function for this example data.
+
+``` r
+#Run analytic_locFDR_BF_uncor function to analytically compute locFDR and log10BF for uncorrelated summary statistics.
+result <- analytic_locFDR_BF_uncor(BetaHat, SE)
+str(result)
+```
+
+This function provides analytically computed locFDR \[result$locFDR\] and log10(Bayes factor) \[result$log10\_BF\] for uncorrelated summary statistics. While analytically computing locFDR (BF), a fixed value of slab variance is considered.
+
+Now we implement CPBayes (based on MCMC) for this example data. Since the studies are non-overlapping, we run the the cpbayes\_uncor function.
 
 ``` r
 # Run the uncorrelated version of CPBayes.
 result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1)
 ```
 
-After running cpbayes\_uncor, it prints the local false discovery rate (denoted as locFDR) and the subset of associated/non-null traits (denoted as subset) produced by CPBayes. The locFDR evaluates the overall pleiotropic association and the subset of non-null traits are the most important phenotypes that underlie the pleiotropic signal. However, the printed outputs are only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below).
+After running cpbayes\_uncor, it prints the list of important traits for which the trait-specific posterior probability of association (PPAj) &gt; 20%. However, the printed outputs are only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below).
 
 ``` r
 # Overall summary of the primary results produced by cpbayes_uncor.
@@ -73,7 +85,7 @@ str(result)
 
 A detailed interpretation of all the outputs are described in the Value section of cpbayes\_uncor in the CPBayes manual.
 
-The post\_summaries function provides important insights into an obseved pleiotropic signal, e.g., the direction of associations, trait-specific posterior probability of associations (PPAj), posterior mean/median and 95% credible interval (Bayesian analog of the confidence interval) of the unknown true genetic effect (beta/odds ratio) on each trait, etc.
+The post\_summaries function provides important insights into an observed pleiotropic signal, e.g., the direction of associations, trait-specific posterior probability of associations (PPAj), posterior mean/median and 95% credible interval (Bayesian analog of the confidence interval) of the unknown true genetic effect (beta/odds ratio) on each trait, etc.
 
 ``` r
 # Post summary of the MCMC data produced by cpbayes_uncor.
@@ -122,14 +134,25 @@ load(datafile)
 cor
 ```
 
-The correlation matrix of the beta-hat vector (cBetaHat) is given by 'cor' which we estimated by employing the estimate\_corln function (demonstrated later in this tutorial) using the sample-overlap matrices (explained later in this tutorial). Next we run the correlated version of CPBayes for this example data.
+The correlation matrix of the beta-hat vector (cBetaHat) is given by 'cor' which we estimated by employing the estimate\_corln function (demonstrated later in this tutorial) using the sample-overlap matrices (explained later in this tutorial).
+
+Since the summary statistics across traits are correlated, we run the the analytic\_locFDR\_BF\_cor function for this example data.
+
+``` r
+# Run analytic_locFDR_BF_cor function to analytically compute locFDR and log10BF for correlated summary statistics.
+result <- analytic_locFDR_BF_cor(cBetaHat, cSE, cor)
+str(result)
+```
+
+So this function analytically computes the locFDR \[result$locFDR\] and log10(Bayes factor) \[result$log10\_BF\] for correlated summary statistics.
+Next we run the correlated version of CPBayes (based on MCMC) for this example data.
 
 ``` r
 # Run the correlated version of CPBayes.
 result <- cpbayes_cor(cBetaHat, cSE, cor, Phenotypes = traitNames, Variant = SNP1)
 ```
 
-After running cpbayes\_cor, it prints the local false discovery rate (denoted as locFDR) and the subset of non-null/associated traits (denoted as subset) produced by CPBayes. However, the printed outputs are only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below).
+After running cpbayes\_cor, it prints the list of important traits for which the trait-specific posterior probability of association (PPAj) &gt; 20%. However, the printed outputs are only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below).
 
 ``` r
 # Overall summary of the primary results produced by cpbayes_cor.
@@ -160,7 +183,7 @@ Note that, forest\_cpbayes works exactly in the same way for both cpbayes\_cor a
 How to run estimate\_corln.
 ===========================
 
-The function estimate\_corln estimates the correlation matrix of the beta-hat vector for multiple overlapping case-control studies using the sample-overlap matrices which describe the number of cases or controls shared between studies/traits, and the number of subjects who are case for one study/trait but control for another study/trait. For a cohort study, the phenotypic correlation matrix should be a reasonable substitute of this correlation matrix.
+The function estimate\_corln estimates the correlation matrix of the beta-hat vector for multiple overlapping case-control studies using the sample-overlap count matrices which describe the number of cases or controls shared between studies/traits, and the number of subjects who are case for one study/trait but control for another study/trait. For a cohort study, the phenotypic correlation matrix should be a reasonable substitute of this correlation matrix.
 
 ``` r
 # Example data of sample-overlap matrices

@@ -23,7 +23,7 @@ Default is `Variant'.}
 
 \item{UpdateSlabVar}{A logical vector of length one. If TRUE, the variance of the slab distribution
 that presents the prior distribution of non-null effects
-is updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE, 
+is updated at each MCMC iteration in a range (MinSlabVar -- MaxSlabVar) (see next). If FALSE,
  it is fixed at (MinSlabVar + MaxSlabVar)/2. Default is TRUE.}
 
 \item{MinSlabVar}{A numeric value greater than 0.01 providing the minimum value of
@@ -40,17 +40,17 @@ a smaller value of the slab variance will increase the sensitivity of CPBayes wh
 \item{MCMCiter}{A positive integer greater than or equal to 7,000 providing the total number of
 iterations in the MCMC. Default is 20,000.}
 
-\item{Burnin}{A positive integer greater than or equal to 2,000 providing the burn in period 
+\item{Burnin}{A positive integer greater than or equal to 2,000 providing the burn in period
 in the MCMC. Default is 5,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.}
 }
 \value{
-The output produced by the function is a list which consists of various components. 
+The output produced by the function is a list which consists of various components.
    \item{variantName}{It is the name of the genetic variant provided by the user. If not
-    specified by the user, default name is `Variant'.} 
+    specified by the user, default name is `Variant'.}
    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures the
     evidence of the overall pleiotropic association.}
    \item{locFDR}{It provides the local false discovery rate (posterior probability of null association) produced by CPBayes
-    (a Bayesian analog of the p-value) which is a measure of the evidence of the 
+     which is a measure of the evidence of the
     aggregate-level pleiotropic association. Bayes factor is adjusted for prior odds, but
      locFDR is solely a function of the posterior odds. locFDR can sometimes be small
      indicating an association, but log10_BF may not indicate an association. Hence, always check both log10_BF and locFDR.}
@@ -59,11 +59,11 @@ The output produced by the function is a list which consists of various componen
    \item{important_traits}{It provides the traits which yield a trait-specific posterior probability of
     association (PPAj) > 20\%. Even if a phenotype is not selected in the optimal subset of non-null
      traits, it can produce a non-negligible value of trait-specific posterior probability of
-      association (PPAj). Note that, `important_traits' is expected to include the traits 
+      association (PPAj). Note that, `important_traits' is expected to include the traits
       already contained in `subset'. It provides both the name of the important traits and
        their corresponding values of PPAj. Always check 'important_traits' even if 'subset' contains
         a single trait. It helps to better explain an observed pleiotropic signal.}
-   \item{auxi_data}{It contains supplementary data including the MCMC data which is used later 
+   \item{auxi_data}{It contains supplementary data including the MCMC data which is used later
     by \code{\link{post_summaries}} and \code{\link{forest_cpbayes}}:
        \enumerate{
            \item traitNames: Name of all the phenotypes.
@@ -99,5 +99,5 @@ str(result)
 Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
-\code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{cpbayes_cor}}, \code{\link{estimate_corln}}
+\code{\link{analytic_locFDR_BF_uncor}}, \code{\link{post_summaries}}, \code{\link{forest_cpbayes}}, \code{\link{analytic_locFDR_BF_cor}}, \code{\link{cpbayes_cor}}, \code{\link{estimate_corln}}
 }

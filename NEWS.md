@@ -1,3 +1,14 @@
+# CPBayes 1.0.0
+Third version of CPBayes R-package
+
+## New features
+
+Two new functions are introduced to analytically compute the local false discovery rate (locFDR) & Bayes factor (BF) that quantifies the evidence of aggregate-level pleiotropic association for uncorrelated and correlated summary statistics.
+
+## Bug fixes and minor improvements
+
+Instead of locFDR and optimal subset of non-null traits, the cpbayes_uncor() and cpbayes_cor() functions now print a list of important traits underlying an overall pleiotropic association.
+
 # CPBayes 0.3.0
 Third version of CPBayes R-package
 

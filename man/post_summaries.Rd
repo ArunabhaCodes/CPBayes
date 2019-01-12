@@ -7,8 +7,8 @@
 post_summaries(mcmc_output, level = 0.05)
 }
 \arguments{
-\item{mcmc_output}{A list returned by either 
- \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list 
+\item{mcmc_output}{A list returned by either
+ \code{\link{cpbayes_uncor}} or \code{\link{cpbayes_cor}}. This list
 contains the primary results and MCMC data produced by \code{\link{cpbayes_uncor}}
  or \code{\link{cpbayes_cor}}. No default is specified. See the example below.}
 
@@ -17,9 +17,9 @@ confidence interval) of the unknown true genetic effect (beta/odds ratio)
  on each trait is computed. Default choice is 0.05.}
 }
 \value{
-The output produced by this function is a list that consists of various components. 
+The output produced by this function is a list that consists of various components.
    \item{variantName}{It is the name of the genetic variant provided by the user. If not
-    specified by the user, default name is `Variant'.} 
+    specified by the user, default name is `Variant'.}
    \item{log10_BF}{It provides the log10(Bayes factor) produced by CPBayes that measures
     the evidence of the overall pleiotropic association.}
    \item{locFDR}{It provides the local false discovery rate (posterior probability of null association) produced by
@@ -49,7 +49,7 @@ The output produced by this function is a list that consists of various componen
        true beta corresponding to each trait.}
     \item{poste_summary_OR}{Data frame providing the posterior summary of the unknown
      true genetic effect (odds ratio) on each trait. It gives posterior mean, median,
-      standard error, credible interval (lower and upper limits) of the true odds 
+      standard error, credible interval (lower and upper limits) of the true odds
        ratio corresponding to each trait.}
 }
 \description{
@@ -66,7 +66,7 @@ SE
 traitNames <- paste("Disease", 1:10, sep = "")
 SNP1 <- "rs1234"
 result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1)
-PleioSumm <- post_summaries(result, level = 0.05) 
+PleioSumm <- post_summaries(result, level = 0.05)
 str(PleioSumm)
 
 }
@@ -74,5 +74,5 @@ str(PleioSumm)
 Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
 }
 \seealso{
-\code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}, \code{\link{forest_cpbayes}}, \code{\link{estimate_corln}}
+\code{\link{cpbayes_uncor}}, \code{\link{cpbayes_cor}}
 }
