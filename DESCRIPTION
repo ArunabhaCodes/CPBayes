@@ -10,7 +10,7 @@ Description: A Bayesian meta-analysis method for studying cross-phenotype
     genetic associations. It uses summary-level data across multiple phenotypes to
     simultaneously measure the evidence of aggregate-level pleiotropic association
     and estimate an optimal subset of traits associated with the risk locus. CPBayes
-    is based on a spike and slab prior. The methodology is available from: A Majumdar, T Haldar, S Bhattacharya, JS Witte (2018) <doi:10.1371/journal.pgen.1007139>
+    is based on a spike and slab prior. The methodology is available from: A Majumdar, T Haldar, S Bhattacharya, JS Witte (2018) <doi:10.1371/journal.pgen.1007139>.
 Depends:
     R (>= 3.2.0)
 License: GPL-3
