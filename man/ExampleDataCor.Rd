@@ -4,13 +4,15 @@
 \name{ExampleDataCor}
 \alias{ExampleDataCor}
 \title{An example data for correlated summary statistics.}
-\format{A list consisting of two numeric vectors (each of length 10) and a numeric square matrix of
+\format{
+A list consisting of two numeric vectors (each of length 10) and a numeric square matrix of
 dimension 10 by 10: 
 \describe{
  \item{BetaHat}{beta hat vector of length 10.}
  \item{SE}{standard error vector corresponding to the beta-hat vector.}
  \item{cor}{correlation matrix of the beta-hat vector.}
-}}
+}
+}
 \usage{
 data(ExampleDataCor)
 }

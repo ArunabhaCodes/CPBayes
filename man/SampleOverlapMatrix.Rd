@@ -4,12 +4,14 @@
 \name{SampleOverlapMatrix}
 \alias{SampleOverlapMatrix}
 \title{An example data of sample-overlap matrices.}
-\format{A list consisting of three integer square matrices (each of dimension 5 by 5): 
+\format{
+A list consisting of three integer square matrices (each of dimension 5 by 5): 
 \describe{
  \item{n11}{number of cases shared between all possible pairs of diseases.}
  \item{n00}{number of controls shared between all possible pairs of diseases.}
  \item{n10}{number of subjects who are case for one disease and control for another disease.}
-}}
+}
+}
 \usage{
 data(SampleOverlapMatrix)
 }

@@ -43,7 +43,7 @@ SE <- ExampleDataUncor$SE
 traitNames <- paste("Disease", 1:10, sep = "")
 SNP1 <- "rs1234"
 result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1)
-forest_cpbayes(result, level = 0.05)
+\dontrun{forest_cpbayes(result, level = 0.05)}
 
 }
 \references{

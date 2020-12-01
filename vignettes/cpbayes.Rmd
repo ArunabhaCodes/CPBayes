@@ -7,7 +7,7 @@ output:
     fig_width: 7
     fig_height: 6
 vignette: >
-  %\VignetteIndexEntry{CPBayes tutorial}
+  %\VignetteIndexEntry{CPBayes (Bayesian meta analysis for studying cross-phenotype genetic associations) package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -102,7 +102,7 @@ So we have to pass the list 'result' returned by cpbayes\_uncor as the first arg
 
 Next we run the forest\_cpbayes function to create a forest plot that presents the pleiotropy result produced by cpbayes\_uncor.
 
-```{r forest_plot, collapse= TRUE}
+```{r forest_plot, eval = FALSE, collapse= TRUE}
 # Forest plot for the pleiotropy result obtained by cpbayes_uncor.
 forest_cpbayes(result, level = 0.05)
 ```
@@ -176,7 +176,7 @@ Note that, post\_summaries works exactly in the same way for both cpbayes\_cor a
 
 Next we run the forest\_cpbayes function to create a forest plot that presents the pleiotropy result produced by cpbayes\_cor.
 
-```{r forest_plot_cor, collapse= TRUE}
+```{r forest_plot_cor, eval=FALSE, collapse= TRUE}
 # Forest plot for the pleiotropy result obtained by cpbayes_cor.
 forest_cpbayes(result, level = 0.05)
 ```

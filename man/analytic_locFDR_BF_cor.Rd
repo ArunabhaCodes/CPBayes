@@ -4,8 +4,7 @@
 \alias{analytic_locFDR_BF_cor}
 \title{Analytic calculation of the local FDR & Bayes factor for correlated summary statistics.}
 \usage{
-analytic_locFDR_BF_cor(BetaHat, SE, Corln, SpikeVar = 1e-04,
-  SlabVar = 0.8)
+analytic_locFDR_BF_cor(BetaHat, SE, Corln, SpikeVar = 1e-04, SlabVar = 0.8)
 }
 \arguments{
 \item{BetaHat}{A numeric vector of length K where K is the number of phenotypes. It

@@ -3,7 +3,6 @@
 \docType{package}
 \name{CPBayes}
 \alias{CPBayes}
-\alias{CPBayes-package}
 \title{CPBayes: An R-package implemeting a Bayesian meta analysis method for studying cross-phenotype
 genetic associations.}
 \description{

@@ -1,7 +1,7 @@
 Package: CPBayes
 Title: Bayesian Meta Analysis for Studying Cross-Phenotype Genetic Associations
 Version: 1.1.0
-Date: 2019-1-31
+Date: 2020-12-01
 Author: Arunabha Majumdar <statgen.arunabha@gmail.com> [aut, cre],
     Tanushree Haldar <tanushree.haldar@gmail.com> [aut],
     John Witte [ctb]
@@ -17,7 +17,7 @@ License: GPL-3
 LazyData: TRUE
 URL: https://github.com/ArunabhaCodes/CPBayes
 BugReports: https://github.com/ArunabhaCodes/CPBayes/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests:
     testthat,
     knitr,

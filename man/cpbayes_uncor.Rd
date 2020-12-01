@@ -4,8 +4,17 @@
 \alias{cpbayes_uncor}
 \title{Run uncorrelated version of CPBayes.}
 \usage{
-cpbayes_uncor(BetaHat, SE, Phenotypes, Variant, UpdateSlabVar = TRUE,
-  MinSlabVar = 0.6, MaxSlabVar = 1, MCMCiter = 7500, Burnin = 500)
+cpbayes_uncor(
+  BetaHat,
+  SE,
+  Phenotypes,
+  Variant,
+  UpdateSlabVar = TRUE,
+  MinSlabVar = 0.6,
+  MaxSlabVar = 1,
+  MCMCiter = 7500,
+  Burnin = 500
+)
 }
 \arguments{
 \item{BetaHat}{A numeric vector of length K where K is the number of phenotypes. It

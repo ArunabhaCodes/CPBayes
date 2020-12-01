@@ -4,11 +4,13 @@
 \name{ExampleDataUncor}
 \alias{ExampleDataUncor}
 \title{An example data for uncorrelated summary statistics.}
-\format{A list of two numeric vectors each of length 10 (for 10 studies):
+\format{
+A list of two numeric vectors each of length 10 (for 10 studies):
 \describe{
     \item{BetaHat}{beta hat vector of length 10.}
     \item{SE}{standard error vector corresponding to beta-hat vector.}
-}}
+}
+}
 \usage{
 data(ExampleDataUncor)
 }
