@@ -4,8 +4,9 @@
 \alias{cpbayes_cor}
 \title{Run correlated version of CPBayes.}
 \usage{
-cpbayes_cor(BetaHat, SE, Corln, Phenotypes, Variant, UpdateSlabVar = TRUE,
-  MinSlabVar = 0.6, MaxSlabVar = 1, MCMCiter = 20000, Burnin = 5000)
+cpbayes_cor(BetaHat, SE, Corln, Phenotypes, Variant,
+  UpdateSlabVar = TRUE, MinSlabVar = 0.6, MaxSlabVar = 1,
+  MCMCiter = 7500, Burnin = 500)
 }
 \arguments{
 \item{BetaHat}{A numeric vector of length K where K is the number of phenotypes. It
@@ -41,11 +42,11 @@ a smaller value of the slab variance will increase the sensitivity of CPBayes wh
  FDR controlling procedure. For a specific dataset, an user
   can experiment different choices of these three arguments: UpdateSlabVar, MinSlabVar, and MaxSlabVar.}
 
-\item{MCMCiter}{A positive integer greater than or equal to 7,000 providing the total number of
-iterations in the MCMC. Default is 20,000.}
+\item{MCMCiter}{A positive integer greater than or equal to 2200 providing the total number of
+iterations in the MCMC. Default is 7500.}
 
-\item{Burnin}{A positive integer greater than or equal to 2,000 providing the burn in period
-in the MCMC. Default is 5,000. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 5,000.}
+\item{Burnin}{A positive integer greater than or equal to 200 providing the burn in period
+in the MCMC. Default is 200. Note that the MCMC sample size (MCMCiter - Burnin) must be at least 2000, which is 7000 by default.}
 }
 \value{
 The output produced by \code{\link{cpbayes_cor}} is a list which consists of various components.

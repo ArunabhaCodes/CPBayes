@@ -243,9 +243,11 @@ chkSlabVar <- function(MinSlabVar = 0.6, MaxSlabVar = 1.0) {
 }
 
 
-chkMCMCparam <- function(MCMCiter = 20000, Burnin = 5000) {
-  defaultVal <- list("MCMCiter" = 20000, "Burnin" = 5000)
-  lBound <- list("MCMCiter" = 7000, "Burnin" = 2000)
+chkMCMCparam <- function(MCMCiter = 7500, Burnin = 500) {
+  defaultVal <- list("MCMCiter" = 7500, "Burnin" = 500)
+  lBound <- list("MCMCiter" = 2200, "Burnin" = 200)
+  min_mcmc_sample_size = lBound$MCMCiter - lBound$Burnin
+
   var_list <- list("MCMCiter" = defaultVal[["MCMCiter"]], "Burnin" = defaultVal[["Burnin"]])
   if(!missing(MCMCiter)) var_list[["MCMCiter"]] <- MCMCiter
   if(!missing(Burnin)) var_list[["Burnin"]] <- Burnin
@@ -262,17 +264,14 @@ chkMCMCparam <- function(MCMCiter = 20000, Burnin = 5000) {
       var_list[[var]] <- defaultVal[[var]]
     }
   }
-  if((var_list[["MCMCiter"]] - var_list[["Burnin"]]) < 5000)
+  if((var_list[["MCMCiter"]] - var_list[["Burnin"]]) < min_mcmc_sample_size)
   {
-    warning("MCMC sample size (MCMCiter - Burnin) provided less than 5000 (default options used)", call. = FALSE)
+    warning("MCMC sample size (MCMCiter - Burnin) provided less than 2000 (default options used)", call. = FALSE)
     var_list[["MCMCiter"]] <- defaultVal[["MCMCiter"]]
     var_list[["Burnin"]] <- defaultVal[["Burnin"]]
   }
   return(var_list)
 }
-
-
-
 
 
 

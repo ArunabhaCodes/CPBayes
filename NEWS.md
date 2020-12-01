@@ -1,5 +1,16 @@
+# CPBayes 1.1.0
+Fifth version of CPBayes R-package
+
+## New features
+
+None.
+
+## Bug fixes and minor improvements
+
+The default choices of the burn in period and the MCMC sample size are modified. Computational runtime is reduced significantly.
+
 # CPBayes 1.0.0
-Third version of CPBayes R-package
+Fourth version of CPBayes R-package
 
 ## New features
 

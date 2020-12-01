@@ -35,7 +35,7 @@ library("CPBayes")
 
 # How to run CPBayes for uncorrelated summary statistics. 
 
-Get the path to the data.
+Load the example data.
 
 ```{r load_Beta, collapse = TRUE}
 library("CPBayes")
@@ -78,7 +78,7 @@ Next we implement CPBayes for this example data. Since the studies are non-overl
   
 ```{r uncor_example, collapse = TRUE}
 # Run the uncorrelated version of CPBayes (based on MCMC).
-result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1, MCMCiter = 10000, Burnin = 2000)
+result <- cpbayes_uncor(BetaHat, SE, Phenotypes = traitNames, Variant = SNP1, MCMCiter = 5500, Burnin = 500)
 ```
 
 There are more options of arguments to pass into the function (see the Arguments section of cpbayes\_uncor in the CPBayes manual). After running cpbayes\_uncor, it prints the list of important traits for which the trait-specific posterior probability of association (PPAj) > 20%. However, the printed output is only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below). 
@@ -152,7 +152,7 @@ The correlation matrix of the beta-hat vector (cBetaHat) is given by 'cor' which
 
 ```{r cor_example, collapse = TRUE}
 # Run the correlated version of CPBayes.
-result <- cpbayes_cor(cBetaHat, cSE, cor, Phenotypes = traitNames, Variant = SNP1, MCMCiter = 10000, Burnin = 2000)
+result <- cpbayes_cor(cBetaHat, cSE, cor, Phenotypes = traitNames, Variant = SNP1, MCMCiter = 5500, Burnin = 500)
 ```
 
 There are more options of arguments to pass into the function (see the Arguments section of cpbayes\_cor in the CPBayes manual). After running cpbayes\_cor, it prints the list of important traits for which the trait-specific posterior probability of association (PPAj) > 20%. However, the printed outputs are only a part of 'result' which is a list that constitutes of various components. An overall summary of 'result' can be seen by using the str() function (as shown below). 
