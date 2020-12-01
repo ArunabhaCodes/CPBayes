@@ -9,7 +9,7 @@
 #' the phenotypic correlation matrix should be a reasonable substitute of this correlation matrix.
 #' These approximations are accurate when none of the diseases/traits is associated with
 #' the environmental covariates and genetic variant.
-#'   
+#'
 #'***Important note on the estimation of correlation structure of correlated beta-hat vector:***
 #' In general, environmental covariates are expected to be present in a study and associated
 #' with the phenotypes of interest. Also, a small proportion of genome-wide genetic variants
@@ -21,7 +21,7 @@
 #' trait-specific univariate association p-values are obtained using the beta-hat
 #' and standard error for each trait. Each of the SNPs selected in this way is either weakly
 #' or not associated with any of the phenotypes (null SNP). Next, select a set of independent
-#' null SNPs from the initial set of null SNPs by using a threshold of r^2 < 0.01 (r: the 
+#' null SNPs from the initial set of null SNPs by using a threshold of r^2 < 0.01 (r: the
 #' correlation between the genotypes at a pair of SNPs). In the absence of in-sample
 #' linkage disequilibrium (LD) information, one can use the reference panel LD information
 #' for this screening. Finally, compute the correlation
@@ -31,11 +31,11 @@
 #' quantitative traits with arbitrary distributions. It is also useful when the beta-hat vector
 #'  for multiple non-overlapping studies become correlated due to genetically related
 #'   individuals across studies. Misspecification of the correlation
-#' structure can affect the results produced by CPBayes to some extent. Hence, if 
+#' structure can affect the results produced by CPBayes to some extent. Hence, if
 #' genome-wide summary statistics data across traits is available, we highly recommend to use
 #' this alternative strategy to estimate the correlation matrix of the beta-hat vector.
-#' See our paper for more details at:  http://biorxiv.org/content/early/2017/01/18/101543. 
-#'  
+#' See our paper for more details.
+#'
 #' @param n11 An integer square matrix (number of rows must be the same as the number of
 #' studies/traits) providing the
 #' number of cases shared between all possible pairs of studies/traits. So (k,l)-th element of n11
@@ -52,18 +52,18 @@
 #' @param n10 An integer square matrix (number of rows must be the same as the
 #'  number of studies/traits) providing the
 #' number of subjects who are case for one study/trait and control for another study/trait.
-#'  Clearly, the diagonal elements 
+#'  Clearly, the diagonal elements
 #' will be zero. An off diagonal element, e.g., (k,l)-th element of n10 is the number of subjects who
 #' are case for k-th study/trait and control for l-th study/trait. If there is no such overlap,
 #' all the elements
 #' of n10 will be zero. No default is specified.
-#' @return This function returns an approximate correlation matrix of the beta-hat vector for 
+#' @return This function returns an approximate correlation matrix of the beta-hat vector for
 #' multiple overlapping case-control studies. See the example below.
 #'
 #' @references Majumdar A, Haldar T, Bhattacharya S, Witte JS (2018) An efficient Bayesian meta analysis approach for studying cross-phenotype genetic associations. PLoS Genet 14(2): e1007139.
-#'  
+#'
 #' @seealso \code{\link{cpbayes_cor}}
-#' 
+#'
 #' @examples
 #' data(SampleOverlapMatrix)
 #' n11 <- SampleOverlapMatrix$n11
@@ -74,34 +74,34 @@
 #' n10
 #' cor <- estimate_corln(n11, n00, n10)
 #' cor
-#' 
+#'
 #' @export
 estimate_corln <- function(n11, n00, n10)
 {
   ## Checking of the three matrices n11, n00, n10
-  ## checking of n11 - diagonal elements > 0, (symmetric) 
+  ## checking of n11 - diagonal elements > 0, (symmetric)
   ## checking of n00 - diagonal elements > 0  (symmetric)
   ## checking of n10 - diagonal elements = 0
   ## each matrix will be integer square matrix, of same dimension
-  
+
   if(missing(n11) || missing(n00) || missing(n10))
     stop("n11, n00 or n10 matrix is missing!", call. = FALSE)
   else
     chkEstCorln(n11, n00, n10)
-  
-  
-  
-  
-  
 
-  
-  
-  
-  
-    
-  
+
+
+
+
+
+
+
+
+
+
+
   n01 <- t(n10)                                          #n01 = transpose(n10)
-  
+
   n1 <- diag(n11)                                        #number of cases for different traits
   n0 <- diag(n00)                                        #number of control for different traits
   n <- n1+n0                                             #total sample size of different studies
@@ -111,30 +111,30 @@ estimate_corln <- function(n11, n00, n10)
   t_sqrt_n0 <- t(sqrt_n0)                                #transpose of sqrt of number of controls column vector
   sqrt_n1 <- sqrt(n1)                                    #sqrt of number of cases across studies
   t_sqrt_n1 <- t(sqrt_n1)                                #transpose of number of cases column vector
-  
+
   sqrt_n0_n0_prod <- sqrt_n0 %*% t_sqrt_n0
   sqrt_n1_n1_prod <- sqrt_n1 %*% t_sqrt_n1
   sqrt_n1_n0_prod <- sqrt_n1 %*% t_sqrt_n0
   sqrt_n0_n1_prod <- sqrt_n0 %*% t_sqrt_n1
-  
+
   a1 <- n11/sqrt_samp_size_prod                          #1st component of 1st part of correlation
   a2 <- sqrt_n0_n0_prod/sqrt_n1_n1_prod                  #2nd component of 1st part of correlation
   a <- a1*a2
-  
+
   b1 <- n10/sqrt_samp_size_prod                          #1st component of 2nd part of correlation
   b2 <- sqrt_n0_n1_prod/sqrt_n1_n0_prod                  #2nd component of 2nd part of correlation
   b <- b1*b2
-  
+
   c1 <- n01/sqrt_samp_size_prod                          #1st component of 3rd part of correlation
   c2 <- sqrt_n1_n0_prod/sqrt_n0_n1_prod                  #2nd component of 3rd part of correlation
   c <- c1*c2
-  
+
   d1 <- n00/sqrt_samp_size_prod                          #1st component of 4th part of correlation
   d2 <- sqrt_n1_n1_prod/sqrt_n0_n0_prod                  #2nd component of 4th part of correlation
   d <- d1*d2
-  
+
   corr <- a-b-c+d
   diag(corr) <- rep(1,nrow(n11))
-  
+
   return(corr)
 }

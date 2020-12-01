@@ -41,7 +41,7 @@ The output produced by this function is a list that consists of various componen
          It helps to better explain an observed pleiotropic signal.}
     \item{traitNames}{It returns the name of all the phenotypes specified by the user.
      Default is trait1, trait2, ... , traitK.}
-    \item{PPAj}{Data frame provaiding the trait-specific posterior probability of
+    \item{PPAj}{Data frame providing the trait-specific posterior probability of
      association for all the phenotypes.}
     \item{poste_summary_beta}{Data frame providing the posterior summary of the
      unknown true genetic effect (beta) on each trait. It gives posterior mean,

@@ -26,14 +26,14 @@ the off-diagonal elements will be zero. No default is specified.}
 \item{n10}{An integer square matrix (number of rows must be the same as the
  number of studies/traits) providing the
 number of subjects who are case for one study/trait and control for another study/trait.
- Clearly, the diagonal elements 
+ Clearly, the diagonal elements
 will be zero. An off diagonal element, e.g., (k,l)-th element of n10 is the number of subjects who
 are case for k-th study/trait and control for l-th study/trait. If there is no such overlap,
 all the elements
 of n10 will be zero. No default is specified.}
 }
 \value{
-This function returns an approximate correlation matrix of the beta-hat vector for 
+This function returns an approximate correlation matrix of the beta-hat vector for
 multiple overlapping case-control studies. See the example below.
 }
 \description{
@@ -44,7 +44,8 @@ who are case for one study/trait but control for another study/trait. For a coho
 the phenotypic correlation matrix should be a reasonable substitute of this correlation matrix.
 These approximations are accurate when none of the diseases/traits is associated with
 the environmental covariates and genetic variant.
-  
+}
+\details{
 ***Important note on the estimation of correlation structure of correlated beta-hat vector:***
 In general, environmental covariates are expected to be present in a study and associated
 with the phenotypes of interest. Also, a small proportion of genome-wide genetic variants
@@ -56,7 +57,7 @@ trait-specific univariate association p-value across all the traits are > 0.1. T
 trait-specific univariate association p-values are obtained using the beta-hat
 and standard error for each trait. Each of the SNPs selected in this way is either weakly
 or not associated with any of the phenotypes (null SNP). Next, select a set of independent
-null SNPs from the initial set of null SNPs by using a threshold of r^2 < 0.01 (r: the 
+null SNPs from the initial set of null SNPs by using a threshold of r^2 < 0.01 (r: the
 correlation between the genotypes at a pair of SNPs). In the absence of in-sample
 linkage disequilibrium (LD) information, one can use the reference panel LD information
 for this screening. Finally, compute the correlation
@@ -66,10 +67,10 @@ general and applicable to a cohort study or multiple overlapping studies for bin
 quantitative traits with arbitrary distributions. It is also useful when the beta-hat vector
  for multiple non-overlapping studies become correlated due to genetically related
   individuals across studies. Misspecification of the correlation
-structure can affect the results produced by CPBayes to some extent. Hence, if 
+structure can affect the results produced by CPBayes to some extent. Hence, if
 genome-wide summary statistics data across traits is available, we highly recommend to use
 this alternative strategy to estimate the correlation matrix of the beta-hat vector.
-See our paper for more details at:  http://biorxiv.org/content/early/2017/01/18/101543.
+See our paper for more details.
 }
 \examples{
 data(SampleOverlapMatrix)
